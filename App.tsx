@@ -3,10 +3,7 @@ import { ApplicationProvider } from "@ui-kitten/components";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import {
-  QueryClient,
-  QueryClientProvider
-} from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import useCachedResources from "./hooks/useCachedResources";
@@ -28,7 +25,10 @@ export default function App() {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <QueryClientProvider client={queryClient}>
-              <ApplicationProvider {...eva} theme={eva.light}>
+              <ApplicationProvider
+                {...eva}
+                theme={colorScheme === "light" ? eva.light : eva.dark}
+              >
                 <Navigation colorScheme={colorScheme} />
               </ApplicationProvider>
             </QueryClientProvider>
