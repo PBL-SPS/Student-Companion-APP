@@ -1,21 +1,22 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
-    Action,
-    combineReducers,
-    configureStore,
-    getDefaultMiddleware,
-    ThunkAction
+  Action,
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+  ThunkAction
 } from "@reduxjs/toolkit";
 import {
-    FLUSH,
-    PAUSE,
-    PERSIST,
-    persistReducer,
-    persistStore,
-    PURGE,
-    REGISTER,
-    REHYDRATE
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE
 } from "redux-persist";
+import counterReducer from "./reducers/sampleslice";
 
 const persistConfig = {
   key: "root",
@@ -23,7 +24,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  // booksReducer: persistReducer(persistConfig, booksReducer)
+  counter: persistReducer(persistConfig, counterReducer),
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
