@@ -19,6 +19,7 @@ import {
 } from "redux-persist";
 import contactReducer from "./reducers/contactsSlice";
 import timetableReducer from "./reducers/timetableSlice";
+import whatsNewReducer from "./reducers/whatsNewSlice";
 
 const persistConfig = {
   key: "root",
@@ -29,6 +30,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   contacts: contactReducer,
   timetable: timetableReducer,
+  whatsnew: whatsNewReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
