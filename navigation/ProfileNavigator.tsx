@@ -34,7 +34,7 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="OtherScreen"
         component={OtherScreen}
-        options={{ headerTitle: "Other" }}
+        options={{ headerTitle: "Other Screen" }}
       />
       <ProfileStack.Screen
         name="ProfileScreen"
