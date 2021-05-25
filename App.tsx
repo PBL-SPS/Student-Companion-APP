@@ -1,5 +1,6 @@
 import * as eva from "@eva-design/eva";
-import { ApplicationProvider } from "@ui-kitten/components";
+import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -10,6 +11,7 @@ import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import { persistor, store } from "./redux/store";
+import LoginScreen from "./screens/LoginScreen";
 
 const queryClient = new QueryClient();
 
@@ -25,11 +27,13 @@ export default function App() {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <QueryClientProvider client={queryClient}>
+              <IconRegistry icons={EvaIconsPack} />
               <ApplicationProvider
                 {...eva}
                 theme={colorScheme === "light" ? eva.light : eva.dark}
               >
-                <Navigation colorScheme={colorScheme} />
+                {/* <Navigation colorScheme={colorScheme} /> */}
+                <LoginScreen />
               </ApplicationProvider>
             </QueryClientProvider>
           </PersistGate>
