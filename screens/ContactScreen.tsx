@@ -1,10 +1,15 @@
 import { Layout, Text } from "@ui-kitten/components";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
+
 import { useQuery } from "react-query";
 import AxiosInstance from "../axios";
+import ContactCard from "../components/ContactCard";
+import useAppDispatch from "../hooks/useAppDispatch";
+import useAppSelector from "../hooks/useAppSelector";
+import { addContacts } from "../redux/reducers/contactsSlice";
 
-type Contact = {
+export type Contact = {
   id: number;
   name: string;
   phoneNum: string;
@@ -15,11 +20,25 @@ type Contact = {
 };
 
 const ContactScreen = () => {
-  const { data, error, isLoading } = useQuery("contacts", () =>
-    AxiosInstance.get("/contacts")
+  const stateContacts = useAppSelector((state) => state.contacts.contacts);
+  const dispatch = useAppDispatch();
+  const {
+    data: contacts,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery("contacts", () =>
+    AxiosInstance.get("/contacts").then((res) => {
+      dispatch(addContacts(res.data));
+      return res.data;
+    })
   );
 
-  if (isLoading)
+  const renderItem = ({ item }: { item: Contact }) => (
+    <ContactCard contact={item} />
+  );
+
+  if (stateContacts.length == 0 && isLoading)
     return (
       <Layout>
         <Text>Loading</Text>
@@ -32,20 +51,24 @@ const ContactScreen = () => {
         <Text>Error</Text>
       </Layout>
     );
-  if (data)
-    return (
-      <Layout>
-        {data.data.map((res: Contact,i:number) => (
-          <Layout key={i.toString()}>
-            <Text>{res.name}</Text>
-            <Text>{res.email}</Text>
-            <Text>{res.position}</Text>
-          </Layout>
-        ))}
-      </Layout>
-    );
+
+  return (
+    <Layout style={styles.container} level="3">
+      <FlatList
+        onRefresh={refetch}
+        refreshing={isLoading}
+        data={stateContacts}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    </Layout>
+  );
 };
 
 export default ContactScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+  },
+});
