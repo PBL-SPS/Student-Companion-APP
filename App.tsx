@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
+import { IonIconsPack } from "./icons/IonIcons";
 import Navigation from "./navigation";
 import { persistor, store } from "./redux/store";
 import LoginScreen from "./screens/LoginScreen";
@@ -24,20 +25,20 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-              <IconRegistry icons={EvaIconsPack} />
+              <IconRegistry icons={[EvaIconsPack, IonIconsPack]} />
               <ApplicationProvider
                 {...eva}
                 theme={colorScheme === "light" ? eva.light : eva.dark}
               >
-                {/* <Navigation colorScheme={colorScheme} /> */}
-                <LoginScreen />
+                <Navigation colorScheme={colorScheme} />
+                {/* <LoginScreen /> */}
               </ApplicationProvider>
             </QueryClientProvider>
-          </PersistGate>
-        </Provider>
+          </Provider>
+        </PersistGate>
         <StatusBar />
       </SafeAreaProvider>
     );

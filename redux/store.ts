@@ -6,6 +6,7 @@ import {
   getDefaultMiddleware,
   ThunkAction
 } from "@reduxjs/toolkit";
+import logger from "redux-logger";
 import {
   FLUSH,
   PAUSE,
@@ -16,15 +17,16 @@ import {
   REGISTER,
   REHYDRATE
 } from "redux-persist";
-import counterReducer from "./reducers/sampleslice";
+import contactReducer from "./reducers/contactsSlice";
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
+  whitelist: ["contacts"],
 };
 
 const rootReducer = combineReducers({
-  counter: persistReducer(persistConfig, counterReducer),
+  contacts: contactReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -35,7 +37,7 @@ export const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }),
+  }).concat(logger),
 });
 
 export const persistor = persistStore(store);
