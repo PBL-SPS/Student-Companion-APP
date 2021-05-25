@@ -10,7 +10,7 @@ import { Formik } from "formik";
 import React, { useState } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import * as Yup from "yup";
-import ErrorMessage from "../components/ErrorMessage";
+import ErrorMessage from "../components/Error/ErrorMessage";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
