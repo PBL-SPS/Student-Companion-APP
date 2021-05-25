@@ -4,7 +4,7 @@ import {
   Icon,
   Layout,
   Text,
-  useTheme
+  useTheme,
 } from "@ui-kitten/components";
 import React, { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
@@ -104,9 +104,12 @@ const TimetableScreen = () => {
       <FlatList
         onRefresh={refetch}
         refreshing={isLoading}
-        data={stateTimetable?.lectures.filter(
-          (lecture) => lecture.day === weekdays[day]
-        )}
+        data={stateTimetable?.lectures
+          .filter((lecture) => lecture.day === weekdays[day])
+          .sort(
+            (b, a) =>
+              new Date(b.startedAt).getHours() - new Date(a.startedAt).getHours()
+          )}
         ItemSeparatorComponent={Divider}
         renderItem={({ item }) => <LectureCard lecture={item} />}
         keyExtractor={(item) => item.id.toString()}
