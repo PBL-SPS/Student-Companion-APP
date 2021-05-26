@@ -1,6 +1,7 @@
-import { Divider, Layout, Text, Toggle } from "@ui-kitten/components";
+import { Layout, Text, Toggle } from "@ui-kitten/components";
 import React from "react";
-import { StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import Divider from "../components/Divider";
 import ProfileItem from "../components/OtherScreen/ProfileItem";
 
 const OtherScreen = ({ navigation }: any) => {

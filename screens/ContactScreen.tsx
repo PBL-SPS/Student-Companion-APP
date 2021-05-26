@@ -53,13 +53,14 @@ const ContactScreen = () => {
     );
 
   return (
-    <Layout style={styles.container} level="3">
+    <Layout style={styles.container} level="4">
       <FlatList
         onRefresh={refetch}
         refreshing={isLoading}
         data={stateContacts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
+        ListFooterComponent={() => <Layout level="4" style={{ paddingTop: 15 }}></Layout>}
       />
     </Layout>
   );
@@ -70,5 +71,6 @@ export default ContactScreen;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    paddingTop: 5,
   },
 });

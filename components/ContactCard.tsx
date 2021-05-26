@@ -22,26 +22,26 @@ const ContactCard = ({ contact }: { contact: Contact }) => {
       .catch((err) => console.log(err));
   };
   return (
-    <Layout style={styles.card} level="1">
-      <Layout style={styles.body}>
-        <Layout style={styles.nameInitial}>
+    <Layout style={styles.card} level="2">
+      <Layout style={styles.body} level="2">
+        <Layout style={styles.nameInitial} level="2">
           <Layout style={styles.nameInitialContainer}>
             <Text style={styles.nameInitialText} category="h5">
               {contact.name[0].toUpperCase()}
             </Text>
           </Layout>
         </Layout>
-        <Layout>
-          <Layout>
+        <Layout level="2">
+          <Layout level="2">
             <Text category="h6">{contact.name}</Text>
           </Layout>
-          <Layout>
+          <Layout level="2">
             <Text category="s1">{contact.position}</Text>
           </Layout>
-          <Layout>
+          <Layout level="2">
             <Text category="s1">{contact.phoneNum}</Text>
           </Layout>
-          <Layout>
+          <Layout level="2">
             <Text category="s1">{contact.email}</Text>
           </Layout>
         </Layout>
@@ -50,7 +50,7 @@ const ContactCard = ({ contact }: { contact: Contact }) => {
       <Layout style={styles.footer}>
         <Button
           style={[
-            { borderRightWidth: 0, borderBottomLeftRadius: 20 },
+            { borderRightWidth: 0, borderBottomLeftRadius: 10 },
             styles.buttons,
           ]}
           appearance="filled"
@@ -63,7 +63,7 @@ const ContactCard = ({ contact }: { contact: Contact }) => {
           Call
         </Button>
         <Button
-          style={[{ borderBottomRightRadius: 20 }, styles.buttons]}
+          style={[{ borderBottomRightRadius: 10 }, styles.buttons]}
           appearance="filled"
           size="medium"
           onPress={() => Linking.openURL(`mailto:${contact.email}`)}
@@ -80,10 +80,20 @@ const ContactCard = ({ contact }: { contact: Contact }) => {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 20,
+    borderRadius: 10,
     overflow: "hidden",
-    marginVertical: 10,
+    marginTop: 15,
+    marginBottom: 5,
     marginHorizontal: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    
+    elevation: 6,
   },
   footer: {
     flexDirection: "row",
