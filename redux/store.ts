@@ -4,7 +4,7 @@ import {
   combineReducers,
   configureStore,
   getDefaultMiddleware,
-  ThunkAction
+  ThunkAction,
 } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import {
@@ -15,20 +15,22 @@ import {
   persistStore,
   PURGE,
   REGISTER,
-  REHYDRATE
+  REHYDRATE,
 } from "redux-persist";
 import contactReducer from "./reducers/contactsSlice";
 import circularReducer from './reducers/circularSlice'
+import timetableReducer from "./reducers/timetableSlice";
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["contacts",'circulars'],
+  whitelist: ["contacts", "timetable","circulars"],
 };
 
 const rootReducer = combineReducers({
   contacts: contactReducer,
-  circulars:circularReducer
+  circulars:circularReducer,
+  timetable: timetableReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

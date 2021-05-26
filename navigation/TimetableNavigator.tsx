@@ -10,7 +10,7 @@ function TimetableNavigator() {
       <TimetableStack.Screen
         name="TimetableScreen"
         component={TimetableScreen}
-        options={{ headerTitle: "Timetables" }}
+        options={{ headerTitle: "Timetable" }}
       />
     </TimetableStack.Navigator>
   );

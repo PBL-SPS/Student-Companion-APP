@@ -33,7 +33,7 @@ const ContactCard = ({ contact }: { contact: Contact }) => {
         </Layout>
         <Layout>
           <Layout>
-            <Text category="h5">{contact.name}</Text>
+            <Text category="h6">{contact.name}</Text>
           </Layout>
           <Layout>
             <Text category="s1">{contact.position}</Text>
