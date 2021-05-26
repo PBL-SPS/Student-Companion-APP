@@ -13,7 +13,7 @@ interface headingProps extends ViewProps {
 }
 
 const CircularCard: ListRenderItem<CircularCardProps> = ({ item }) => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   return (
     // <ListItem
     //   title={item.heading}
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 2,
-    border: "0",
+    // border: "0",
   },
   imageIcon: {
     flex: 1,
