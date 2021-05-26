@@ -1,7 +1,14 @@
 import { useNavigation } from "@react-navigation/core";
-import { Layout, Text, List, Divider } from "@ui-kitten/components";
+import {
+  Layout,
+  Text,
+  List,
+  Divider,
+  ButtonGroup,
+  Button,
+} from "@ui-kitten/components";
 import React from "react";
-import { Button, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { useQuery } from "react-query";
 import AxiosInstance from "../axios";
 import CircularCard from "../components/CircularCard";
@@ -10,7 +17,7 @@ import useAppSelector from "../hooks/useAppSelector";
 import { getCirculars } from "../redux/reducers/circularSlice";
 
 const CircularScreen = () => {
-  const navigation = useNavigation()
+  const navigation: any = useNavigation();
   const stateCircular = useAppSelector((state) => state.circulars.circulars);
   const dispatch = useAppDispatch();
   const {
@@ -47,7 +54,9 @@ const CircularScreen = () => {
         renderItem={CircularCard}
         ItemSeparatorComponent={Divider}
       />
-      <Button onPress={navigation.navigate('')}>Press me</Button>
+      <Button onPress={navigation.navigate("CircularDetailsScreen")}>
+        Press me
+      </Button>
     </Layout>
   );
 };

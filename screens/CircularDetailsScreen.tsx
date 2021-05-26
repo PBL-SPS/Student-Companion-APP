@@ -1,11 +1,16 @@
+import { Card, Layout, Text } from "@ui-kitten/components";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 const CircularDetailsScreen = () => {
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <Layout>
+      <Card>
+        <Layout>
+          <Text></Text>
+        </Layout>
+      </Card>
+    </Layout>
   );
 };
 

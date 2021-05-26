@@ -13,14 +13,8 @@ interface headingProps extends ViewProps {
 }
 
 const CircularCard: ListRenderItem<CircularCardProps> = ({ item }) => {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   return (
-    // <ListItem
-    //   title={item.heading}
-    //   description={item.content}
-    //   accessoryLeft={renderCircularIcon}
-    //   style={styles.circularItem}
-    // />
     <Layout style={styles.outerContainer}>
       <Layout style={styles.containerIcon}>
         <Ionicons style={styles.imageIcon} name="person" size={30} />
