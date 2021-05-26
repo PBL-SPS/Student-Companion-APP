@@ -47,7 +47,7 @@ const CircularScreen = () => {
         renderItem={CircularCard}
         ItemSeparatorComponent={Divider}
       />
-      <Button onPress={() => navigation.navigate('')}>Press me</Button>
+      {/* <Button onPress={() => navigation.navigate('')}>Press me</Button> */}
     </Layout>
   );
 };
