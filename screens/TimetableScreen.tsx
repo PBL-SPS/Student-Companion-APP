@@ -1,15 +1,9 @@
-import {
-  Button,
-  Divider,
-  Icon,
-  Layout,
-  Text,
-  useTheme,
-} from "@ui-kitten/components";
+import { Button, Icon, Layout, Text, useTheme } from "@ui-kitten/components";
 import React, { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { useQuery } from "react-query";
 import AxiosInstance from "../axios";
+import Divider from "../components/Divider";
 import LectureCard from "../components/LectureCard";
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
@@ -79,8 +73,8 @@ const TimetableScreen = () => {
       </Layout>
     );
   return (
-    <Layout style={styles.container} level="2">
-      <Layout style={styles.header}>
+    <Layout style={styles.container} level="4">
+      <Layout style={styles.header} level="2">
         <Button
           appearance="ghost"
           status="primary"
@@ -108,9 +102,10 @@ const TimetableScreen = () => {
           .filter((lecture) => lecture.day === weekdays[day])
           .sort(
             (b, a) =>
-              new Date(b.startedAt).getHours() - new Date(a.startedAt).getHours()
+              new Date(b.startedAt).getHours() -
+              new Date(a.startedAt).getHours()
           )}
-        ItemSeparatorComponent={Divider}
+        ItemSeparatorComponent={() => <Divider />}
         renderItem={({ item }) => <LectureCard lecture={item} />}
         keyExtractor={(item) => item.id.toString()}
         ListEmptyComponent={
@@ -121,7 +116,7 @@ const TimetableScreen = () => {
               justifyContent: "center",
               paddingVertical: 100,
             }}
-            level="2"
+            level="4"
           >
             <Icon
               name="happy-outline"
@@ -152,6 +147,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: "center",
     justifyContent: "space-around",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   icon: {
     width: 25,

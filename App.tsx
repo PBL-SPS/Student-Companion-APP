@@ -1,4 +1,8 @@
 import * as eva from "@eva-design/eva";
+import {
+  dark as materialDark,
+  light as materialLight,
+} from "@eva-design/material";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { StatusBar } from "expo-status-bar";
@@ -13,6 +17,7 @@ import { IonIconsPack } from "./icons/IonIcons";
 import Navigation from "./navigation";
 import { persistor, store } from "./redux/store";
 import LoginScreen from "./screens/LoginScreen";
+import { customEvaTheme } from "./theme/customTheme";
 
 const queryClient = new QueryClient();
 
@@ -31,7 +36,28 @@ export default function App() {
               <IconRegistry icons={[EvaIconsPack, IonIconsPack]} />
               <ApplicationProvider
                 {...eva}
-                theme={colorScheme === "light" ? eva.light : eva.dark}
+                theme={
+                  colorScheme === "light"
+                    ? {
+                        ...materialLight,
+                        ...customEvaTheme,
+                        ...{
+                          "background-basic-color-2": "#ffffff",
+                          "background-basic-color-3": "#ffffff",
+                          "background-basic-color-4": "#ffffff",
+                        },
+                      }
+                    : {
+                        ...materialDark,
+                        ...customEvaTheme,
+                        ...{
+                          "background-basic-color-1": "#2D2D2D",
+                          "background-basic-color-2": "#272727",
+                          "background-basic-color-3": "#222222",
+                          "background-basic-color-4": "#1E1E1E",
+                        },
+                      }
+                }
               >
                 <Navigation colorScheme={colorScheme} />
                 {/* <LoginScreen /> */}

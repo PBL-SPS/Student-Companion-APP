@@ -11,9 +11,9 @@ type LectureCardProps = {
 const LectureCard = ({ lecture }: LectureCardProps) => {
   const theme = useTheme();
   return (
-    <Layout style={styles.card} level="1">
-      <Layout style={styles.initialContainer}>
-        <Layout
+    <Layout style={styles.card} level="3">
+      <Layout level="3" style={styles.initialContainer}>
+        <Layout level="3"
           style={[
             { backgroundColor: theme["color-primary-400"] },
             styles.initialLetter,
@@ -24,15 +24,15 @@ const LectureCard = ({ lecture }: LectureCardProps) => {
           </Text>
         </Layout>
       </Layout>
-      <Layout style={styles.infoContainer}>
-        <Layout style={{ flexDirection: "row", flexBasis: 10 }}>
+      <Layout level="3" style={styles.infoContainer}>
+        <Layout level="3" style={{ flexDirection: "row", flexBasis: 10 }}>
           <Text category="p1" style={styles.lectureName}>
             {lecture.name}
           </Text>
         </Layout>
 
         <Text category="p2">{lecture.lecturer}</Text>
-        <Layout
+        <Layout level="3"
           style={{ flexDirection: "row", justifyContent: "space-between" }}
         >
           <Text category="p2">
@@ -40,7 +40,7 @@ const LectureCard = ({ lecture }: LectureCardProps) => {
             {moment(lecture.endedAt).format("hh:mm A")}
           </Text>
           {lecture.batchId && (
-            <Layout style={[styles.tag]}>
+            <Layout level="3" style={[styles.tag]}>
               <Text
                 category="label"
                 style={[

@@ -1,6 +1,7 @@
-import { Divider, Layout, Text } from "@ui-kitten/components";
+import { Layout, Text } from "@ui-kitten/components";
 import React from "react";
 import { StyleSheet } from "react-native";
+import Divider from "../components/Divider";
 import AcademicItem from "../components/OtherScreen/AcademicItem";
 
 const ProfileScreen = () => {
