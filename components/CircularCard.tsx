@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 2,
-    border: "0",
   },
   imageIcon: {
     flex: 1,
