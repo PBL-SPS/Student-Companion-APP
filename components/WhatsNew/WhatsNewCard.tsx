@@ -13,7 +13,7 @@ const WhatsNewCard = ({ whatsnewitem }: { whatsnewitem: WhatsNew }) => {
         navigation.navigate("WhatsNewDetailScreen", {
           heading: whatsnewitem.heading,
           content: whatsnewitem.content,
-          file: whatsnewitem.file,
+          file: whatsnewitem?.file,
         })
       }
       activeOpacity={0.6}
