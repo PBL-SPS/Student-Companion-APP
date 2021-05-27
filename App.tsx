@@ -44,7 +44,7 @@ export default function App() {
                         ...{
                           "background-basic-color-2": "#ffffff",
                           "background-basic-color-3": "#ffffff",
-                          "background-basic-color-4": "#ffffff",
+                          "background-basic-color-4": "#e6e1e1",
                         },
                       }
                     : {

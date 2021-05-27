@@ -41,7 +41,7 @@ const WhatsNewScreen = () => {
   if (isLoading) {
     return (
       <Layout style={styles.spinner}>
-        <Spinner size="giant" status="basic" />
+        <Spinner size="giant" />
       </Layout>
     );
   }
