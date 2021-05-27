@@ -1,4 +1,4 @@
-import { Layout, Text, Toggle } from "@ui-kitten/components";
+import { Layout, Text, Toggle, useTheme } from "@ui-kitten/components";
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ import { addAuthData } from "../redux/reducers/authSlice";
 
 const OtherScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   return (
     <Layout style={styles.container}>
       <TouchableOpacity
@@ -15,7 +16,12 @@ const OtherScreen = ({ navigation }: any) => {
         onPress={() => navigation.navigate("ProfileScreen")}
       >
         <Layout style={styles.header}>
-          <Layout style={styles.initialsWrapper}>
+          <Layout
+            style={[
+              styles.initialsWrapper,
+              { backgroundColor: theme["background-basic-color-4"] },
+            ]}
+          >
             <Text style={styles.initials}>JD</Text>
           </Layout>
           <Layout style={styles.headerText}>
@@ -38,7 +44,7 @@ const OtherScreen = ({ navigation }: any) => {
         </TouchableOpacity>
         <Layout style={styles.darkMode}>
           <ProfileItem name="moon-outline" text="Dark Mode" />
-          <Toggle />
+          <Toggle checked={true} />
         </Layout>
       </Layout>
       <Divider />
@@ -66,17 +72,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   initialsWrapper: {
-    backgroundColor: "#000",
     height: 90,
     width: 90,
     borderRadius: 45,
-    position: "relative",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    
+    elevation: 2,
   },
   initials: {
     fontSize: 35,
-    position: "absolute",
-    top: 15,
-    left: 20,
+    textAlign: "center",
   },
   headerText: {
     alignSelf: "center",

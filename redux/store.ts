@@ -18,18 +18,22 @@ import {
   REHYDRATE
 } from "redux-persist";
 import authReducer from "./reducers/authSlice";
+import circularReducer from "./reducers/circularSlice";
 import contactReducer from "./reducers/contactsSlice";
 import timetableReducer from "./reducers/timetableSlice";
+import whatsNewReducer from "./reducers/whatsNewSlice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["contacts", "timetable", "auth"],
+  whitelist: ["contacts", "timetable", "auth", "circulars"],
 };
 
 const rootReducer = combineReducers({
   contacts: contactReducer,
+  circulars: circularReducer,
   timetable: timetableReducer,
   auth: authReducer,
+  whatsnew: whatsNewReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -26,3 +26,9 @@ export type TabOneParamList = {
 export type TabTwoParamList = {
   TabTwoScreen: undefined;
 };
+
+export interface CircularCardProps {
+  heading: string;
+  content: string;
+  public: boolean;
+}
