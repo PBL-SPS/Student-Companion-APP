@@ -1,4 +1,4 @@
-import { Icon, Layout, Text } from "@ui-kitten/components";
+import { Icon, Layout, Text, useTheme } from "@ui-kitten/components";
 import React from "react";
 import { StyleSheet } from "react-native";
 
@@ -8,9 +8,10 @@ interface propTypes {
 }
 
 const ProfileItem = ({ name, text, ...props }: propTypes) => {
+  const theme = useTheme();
   return (
     <Layout style={styles.container}>
-      <Icon name={name} fill="#fff" style={styles.icon} />
+      <Icon name={name} fill={theme["color-primary-500"]} style={styles.icon} />
       <Text category="h6" {...props}>
         {text}
       </Text>
