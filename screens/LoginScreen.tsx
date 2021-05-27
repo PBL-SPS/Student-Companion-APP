@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/core";
 import {
   Button,
   Icon,
@@ -20,6 +21,7 @@ const validationSchema = Yup.object().shape({
 const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const navigation = useNavigation()
 
   const AlertIcon = (props: any) => (
     <Icon {...props} name="alert-circle-outline" />
@@ -119,7 +121,9 @@ const LoginScreen = () => {
                         </Text>
                       </View>{" "}
                       <View>
-                        <Text style={styles.signUpText}>Sign Up</Text>
+                        <TouchableWithoutFeedback onPress={() => navigation.navigate("Signup")}>
+                          <Text style={styles.signUpText}>Sign Up</Text>
+                        </TouchableWithoutFeedback>
                       </View>
                     </Text>
                   </Layout>

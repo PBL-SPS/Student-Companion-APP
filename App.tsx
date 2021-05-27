@@ -17,6 +17,7 @@ import { IonIconsPack } from "./icons/IonIcons";
 import Navigation from "./navigation";
 import { persistor, store } from "./redux/store";
 import LoginScreen from "./screens/LoginScreen";
+import SignupScreen from "./screens/SignupScreen";
 import { customEvaTheme } from "./theme/customTheme";
 
 const queryClient = new QueryClient();

@@ -4,7 +4,7 @@ import {
   combineReducers,
   configureStore,
   getDefaultMiddleware,
-  ThunkAction,
+  ThunkAction
 } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import {
@@ -15,20 +15,21 @@ import {
   persistStore,
   PURGE,
   REGISTER,
-  REHYDRATE,
+  REHYDRATE
 } from "redux-persist";
+import authReducer from "./reducers/authSlice";
 import contactReducer from "./reducers/contactsSlice";
 import timetableReducer from "./reducers/timetableSlice";
-
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["contacts", "timetable"],
+  whitelist: ["contacts", "timetable", "auth"],
 };
 
 const rootReducer = combineReducers({
   contacts: contactReducer,
   timetable: timetableReducer,
+  auth: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

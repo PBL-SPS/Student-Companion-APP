@@ -1,5 +1,5 @@
+import { Text } from "@ui-kitten/components";
 import React from "react";
-import { Text } from "react-native";
 
 interface propTypes {
   children: string;
@@ -17,7 +17,7 @@ const ErrorMessage = ({
     return null;
   }
   return (
-    <Text style={{ color: "red", fontSize: 10 }} {...otherProps}>
+    <Text status="danger" category="label" {...otherProps}>
       {children}
     </Text>
   );
