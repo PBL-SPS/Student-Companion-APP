@@ -20,6 +20,7 @@ import {
 import contactReducer from "./reducers/contactsSlice";
 import circularReducer from './reducers/circularSlice'
 import timetableReducer from "./reducers/timetableSlice";
+import whatsNewReducer from "./reducers/whatsNewSlice";
 
 const persistConfig = {
   key: "root",
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   contacts: contactReducer,
   circulars:circularReducer,
   timetable: timetableReducer,
+  whatsnew: whatsNewReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

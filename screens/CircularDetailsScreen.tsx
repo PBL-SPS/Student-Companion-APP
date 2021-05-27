@@ -7,7 +7,7 @@ const CircularDetailsScreen = () => {
     <Layout>
       <Card>
         <Layout>
-          <Text></Text>
+          <Text>Hello</Text>
         </Layout>
       </Card>
     </Layout>

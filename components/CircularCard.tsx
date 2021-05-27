@@ -4,7 +4,8 @@ import { Card, Divider, Layout, ListItem, Text } from "@ui-kitten/components";
 import { Ionicons } from "@expo/vector-icons";
 import { CircularCardProps } from "../types";
 import { RenderProp } from "@ui-kitten/components/devsupport";
-import { useNavigation } from "@react-navigation/core";
+import { TouchableOpacity } from "react-native-gesture-handler";
+// import { useNavigation } from "@react-navigation/core";
 
 const renderCircularIcon = () => <Ionicons name="person" size={20} />;
 
@@ -13,30 +14,31 @@ interface headingProps extends ViewProps {
 }
 
 const CircularCard: ListRenderItem<CircularCardProps> = ({ item }) => {
-  const navigation: any = useNavigation();
   return (
-    <Layout style={styles.outerContainer}>
-      <Layout style={styles.containerIcon}>
-        <Ionicons style={styles.imageIcon} name="person" size={30} />
+    <TouchableOpacity onPress={() => console.log("pressed")}>
+      <Layout style={styles.outerContainer}>
+        <Layout style={styles.containerIcon}>
+          <Ionicons style={styles.imageIcon} name="person" size={30} />
+        </Layout>
+        <Layout style={styles.containerCard}>
+          <Card style={styles.card}>
+            <Layout
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginBottom: 3,
+              }}
+            >
+              <Text category="s1">{item.heading}</Text>
+              <Text appearance="hint" category="c1">
+                8m ago
+              </Text>
+            </Layout>
+            <Text category="p2">{item.content.substr(0, 25)}</Text>
+          </Card>
+        </Layout>
       </Layout>
-      <Layout style={styles.containerCard}>
-        <Card style={styles.card}>
-          <Layout
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginBottom: 3,
-            }}
-          >
-            <Text category="s1">{item.heading}</Text>
-            <Text appearance="hint" category="c1">
-              8m ago
-            </Text>
-          </Layout>
-          <Text category="p2">{item.content.substr(0, 25)}</Text>
-        </Card>
-      </Layout>
-    </Layout>
+    </TouchableOpacity>
   );
 };
 
@@ -59,6 +61,7 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 2,
+    borderWidth: 0,
   },
   imageIcon: {
     flex: 1,

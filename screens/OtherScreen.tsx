@@ -35,7 +35,7 @@ const OtherScreen = ({ navigation }: any) => {
         </TouchableOpacity>
         <Layout style={styles.darkMode}>
           <ProfileItem name="moon-outline" text="Dark Mode" />
-          <Toggle />
+          <Toggle checked={true} />
         </Layout>
       </Layout>
       <Divider />
