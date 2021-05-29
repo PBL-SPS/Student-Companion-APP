@@ -22,13 +22,18 @@ import { CircularCardProps } from "../types";
 
 const CircularScreen = () => {
   const theme = useTheme();
-  const navigation: any = useNavigation();
+  const navigation = useNavigation();
   const stateCircular = useAppSelector((state) => state.circulars.circulars);
   const dispatch = useAppDispatch();
+  //Circular Card
   const CircularCard: ListRenderItem<CircularCardProps> = ({ item }) => {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate("CircularDetailsScreen")}
+        onPress={() =>
+          navigation.navigate("CircularDetailsScreen", {
+            ...item,
+          })
+        }
       >
         <Layout style={styles.outerContainer}>
           <Layout style={styles.containerIcon}>
@@ -50,12 +55,16 @@ const CircularScreen = () => {
                   marginBottom: 3,
                 }}
               >
-                <Text category="h6">{item.heading}</Text>
+                <Text category="h6" style={styles.heading}>
+                  {item.heading}
+                </Text>
                 <Text appearance="hint" category="p2">
                   8m ago
                 </Text>
               </Layout>
-              <Text category="s1">{item.content.substr(0, 25)}</Text>
+              <Text category="s1" style={styles.content}>
+                {item.content.substr(0, 25)}
+              </Text>
             </Card>
           </Layout>
         </Layout>
@@ -126,5 +135,14 @@ const styles = StyleSheet.create({
   },
   imageIcon: {
     textAlign: "center",
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: "bold",
+    letterSpacing: 0.2,
+  },
+  content: {
+    fontSize: 14,
+    fontWeight: "200",
   },
 });

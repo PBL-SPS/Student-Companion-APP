@@ -1,14 +1,20 @@
-import { Layout, Text } from "@ui-kitten/components";
+import { Layout, Text, useTheme } from "@ui-kitten/components";
 import React from "react";
 import { StyleSheet } from "react-native";
 import Divider from "../components/Divider";
 import AcademicItem from "../components/OtherScreen/AcademicItem";
 
 const ProfileScreen = () => {
+  const theme = useTheme();
   return (
     <Layout style={styles.container}>
       <Layout style={styles.header}>
-        <Layout style={styles.initialsWrapper}>
+        <Layout
+          style={[
+            styles.initialsWrapper,
+            { backgroundColor: theme["background-basic-color-4"] },
+          ]}
+        >
           <Text style={styles.initials}>JD</Text>
         </Layout>
         <Layout style={styles.headerText}>
@@ -52,17 +58,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   initialsWrapper: {
-    backgroundColor: "#000",
     height: 90,
     width: 90,
     borderRadius: 45,
-    position: "relative",
+    justifyContent: "center",
+    alignItems: "center",
   },
   initials: {
     fontSize: 35,
-    position: "absolute",
-    top: 15,
-    left: 20,
+    textAlign: "center",
   },
   headerText: {
     alignSelf: "center",
