@@ -7,10 +7,14 @@ import {
   TopNavigationAction,
 } from "@ui-kitten/components";
 import React from "react";
+import EditProfileScreen from "../screens/EditProfileScreen";
 import OtherScreen from "../screens/OtherScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { GlobalStyles } from "../styles/globalStyles";
-import { renderBackButtonAction } from "./CommonNavigation";
+import {
+  renderBackButtonAction,
+  TopNavigationWithBackButton,
+} from "./CommonNavigation";
 
 const ProfileStack = createStackNavigator();
 
@@ -23,7 +27,7 @@ const renderEditAction = () => {
   return (
     <TopNavigationAction
       icon={AccountEditIcon}
-      onPress={() => navigation.navigate("OtherScreen")}
+      onPress={() => navigation.navigate("EditProfile")}
     />
   );
 };
@@ -48,6 +52,15 @@ function ProfileNavigator() {
               accessoryRight={renderEditAction}
               accessoryLeft={renderBackButtonAction}
             />
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={{
+          header: (props) => (
+            <TopNavigationWithBackButton title="Edit Profile" />
           ),
         }}
       />

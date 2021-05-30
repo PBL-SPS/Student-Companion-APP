@@ -18,10 +18,10 @@ import AxiosInstance from "../axios";
 import ErrorMessage from "../components/Error/ErrorMessage";
 import { addAuthData } from "../redux/reducers/authSlice";
 
-const divisions = ["1", "2", "3"];
+const divisions = ["1", "2", "3", "4"];
 const years = ["FE", "SE", "TE", "BE"];
-const departments = ["CE", "IT", "ENTC"];
-const batches = ["A1", "B1", "C1", "G1"];
+const departments = ["COMP", "IT", "ENTC"];
+const batches = ["E1", "F1", "G1", "H1"];
 
 type SignUpData = {
   firstName: string;
@@ -119,7 +119,11 @@ const ProfileCreateScreen = () => {
           <Text category="h1">Just{"\n"}Few Details.</Text>
         </Layout>
         <Layout level="4">
-          {error && <ErrorMessage visible={true}>{error.response.data.message}</ErrorMessage>}
+          {error && (
+            <ErrorMessage visible={true}>
+              {error.response.data.message}
+            </ErrorMessage>
+          )}
           <Formik
             initialValues={{
               email: prevData.email,

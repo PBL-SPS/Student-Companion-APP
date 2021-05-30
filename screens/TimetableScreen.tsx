@@ -44,7 +44,6 @@ const TimetableScreen = () => {
         "/timetable/academics?yearId=1&departmentId=1&divisionId=1"
       )
         .then((res) => {
-          console.log(res.data);
           dispatch(addTimetable(res.data));
           return res.data;
         })

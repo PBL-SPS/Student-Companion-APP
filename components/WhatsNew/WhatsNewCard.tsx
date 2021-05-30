@@ -14,6 +14,7 @@ const WhatsNewCard = ({ whatsnewitem }: { whatsnewitem: WhatsNew }) => {
           heading: whatsnewitem.heading,
           content: whatsnewitem.content,
           file: whatsnewitem?.file,
+          createdAt: whatsnewitem.createdAt,
         })
       }
       activeOpacity={0.6}

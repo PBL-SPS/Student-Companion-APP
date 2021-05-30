@@ -2,12 +2,14 @@ import { useRoute } from "@react-navigation/core";
 import { Layout, Text } from "@ui-kitten/components";
 import React from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
+import Moment from "moment";
 
 const WhatsNewDetailScreen = () => {
   const route: any = useRoute();
   const headingDetail = route.params.heading;
   const contentDetail = route.params.content;
   const fileDetail = route.params.file;
+  const createdAtDetail = route.params.createdAt;
   return (
     <Layout style={styles.container}>
       {fileDetail?.link && (
@@ -15,9 +17,12 @@ const WhatsNewDetailScreen = () => {
       )}
       <ScrollView>
         <Layout style={styles.body}>
-          <View>
+          <View style={styles.textWrapper}>
             <Text style={styles.heading} category="h3">
               {headingDetail}
+            </Text>
+            <Text appearance="hint" style={styles.date}>
+              {Moment(createdAtDetail).fromNow()}
             </Text>
           </View>
 
@@ -45,6 +50,9 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginVertical: 15,
+  },
+  date: {
+    fontStyle: "italic",
   },
   content: {
     textAlign: "justify",
