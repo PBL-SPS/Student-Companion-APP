@@ -48,7 +48,7 @@ const ContactScreen = () => {
   if (error)
     return (
       <Layout>
-        <Text>Error</Text>
+        <Text>{error.toString()}</Text>
       </Layout>
     );
 

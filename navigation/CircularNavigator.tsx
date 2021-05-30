@@ -23,6 +23,9 @@ function CircularNavigator() {
       <CircularStack.Screen
         name="CircularDetailsScreen"
         component={CircularDetailsScreen}
+        options={{
+          headerTitle : "Circular Details"
+        }}
       />
     </CircularStack.Navigator>
   );

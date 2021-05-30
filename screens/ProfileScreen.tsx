@@ -63,6 +63,15 @@ const styles = StyleSheet.create({
     borderRadius: 45,
     justifyContent: "center",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   initials: {
     fontSize: 35,

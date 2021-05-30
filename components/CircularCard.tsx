@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     padding: 5,
+    marginHorizontal : 20
   },
   containerIcon: {
     width: "10%",

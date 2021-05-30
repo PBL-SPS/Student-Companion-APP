@@ -1,20 +1,11 @@
 import { useNavigation } from "@react-navigation/core";
-import {
-  Layout,
-  Text,
-  List,
-  Divider,
-  ButtonGroup,
-  Button,
-  Card,
-  useTheme,
-} from "@ui-kitten/components";
+import { Icon, Layout, List, Text, useTheme } from "@ui-kitten/components";
+import moment from "moment";
 import React from "react";
 import { ListRenderItem, StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useQuery } from "react-query";
 import AxiosInstance from "../axios";
-import { Ionicons } from "@expo/vector-icons";
-import CircularCard from "../components/CircularCard";
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { getCirculars } from "../redux/reducers/circularSlice";
@@ -28,47 +19,61 @@ const CircularScreen = () => {
   //Circular Card
   const CircularCard: ListRenderItem<CircularCardProps> = ({ item }) => {
     return (
-      <TouchableOpacity
+      <TouchableWithoutFeedback
         onPress={() =>
           navigation.navigate("CircularDetailsScreen", {
             ...item,
           })
         }
       >
-        <Layout style={styles.outerContainer}>
-          <Layout style={styles.containerIcon}>
-            <Ionicons
-              style={{
-                color: theme["color-info-500"],
-                ...styles.imageIcon,
-              }}
-              name="person"
-              size={25}
-            />
-          </Layout>
-          <Layout style={styles.containerCard}>
-            <Card style={styles.card} disabled>
-              <Layout
+        <Layout style={styles.wrapper} level="1">
+          <Layout style={styles.outerContainer} level="1">
+            <Layout style={styles.containerIcon}>
+              <Icon
+                name="newspaper"
+                pack="ion"
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginBottom: 3,
+                  ...styles.imageIcon,
+                  color: theme["color-primary-400"],
                 }}
-              >
-                <Text category="h6" style={styles.heading}>
-                  {item.heading}
-                </Text>
-                <Text appearance="hint" category="p2">
+              />
+            </Layout>
+            <Layout style={styles.containerCard}>
+              <Layout style={styles.card}>
+                <Layout
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    // marginBottom: 3,
+                  }}
+                >
+                  <Text category="h6" style={styles.heading}>
+                    {item.heading}
+                  </Text>
+                  {/* <Text appearance="hint" category="p2">
                   8m ago
-                </Text>
+                </Text> */}
+                </Layout>
               </Layout>
               <Text category="s1" style={styles.content}>
-                {item.content.substr(0, 25)}
+                {item.content.length > 100
+                  ? item.content.substr(0, 100) + "..."
+                  : item.content}
               </Text>
-            </Card>
+            </Layout>
+          </Layout>
+          <Layout
+            style={{
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              paddingBottom: 15,
+              paddingRight: 17,
+            }}
+          >
+            <Text category="c2">{moment(item.createdAt).fromNow()}</Text>
           </Layout>
         </Layout>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   };
   const {
@@ -97,13 +102,14 @@ const CircularScreen = () => {
     );
 
   return (
-    <Layout>
+    <Layout level="4" style={{ flexGrow: 1}}>
       <List
+        style={{ flexGrow: 1 }}
         onRefresh={refetch}
         refreshing={isLoading}
         data={stateCircular}
         renderItem={CircularCard}
-        ItemSeparatorComponent={Divider}
+        // ItemSeparatorComponent={Divider}
       />
       {/* <Button onPress={() => navigation.navigate("CircularDetailsScreen")}>
         Press me
@@ -118,31 +124,52 @@ const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
     flexDirection: "row",
-    padding: 5,
+    // padding: 5,
   },
   containerIcon: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-start",
     width: "15%",
-    borderRightWidth: 1,
-    borderRightColor: "#dcdcdc",
-    alignSelf: "center",
+    paddingTop: 20,
+    textAlign: "center",
   },
   containerCard: {
     width: "85%",
+    paddingTop: 15,
+    paddingRight: 17,
   },
   card: {
-    margin: 2,
+    // margin: 2,
     borderWidth: 0,
   },
   imageIcon: {
-    textAlign: "center",
+    width: 25,
+    height: 25,
   },
   heading: {
-    fontSize: 20,
     fontWeight: "bold",
-    letterSpacing: 0.2,
+    textTransform: "capitalize",
+    // letterSpacing: 0.2,
   },
   content: {
     fontSize: 14,
     fontWeight: "200",
+  },
+  wrapper: {
+    overflow: "hidden",
+    marginHorizontal: 10,
+    marginBottom : 10,
+    marginTop : 5,
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 });

@@ -17,6 +17,7 @@ import { IonIconsPack } from "./icons/IonIcons";
 import Navigation from "./navigation";
 import { persistor, store } from "./redux/store";
 import LoginScreen from "./screens/LoginScreen";
+import SignupScreen from "./screens/SignupScreen";
 import { customEvaTheme } from "./theme/customTheme";
 
 const queryClient = new QueryClient();
@@ -44,7 +45,7 @@ export default function App() {
                         ...{
                           "background-basic-color-2": "#ffffff",
                           "background-basic-color-3": "#ffffff",
-                          "background-basic-color-4": "#e6e1e1",
+                          "background-basic-color-4": "#ffffff",
                         },
                       }
                     : {

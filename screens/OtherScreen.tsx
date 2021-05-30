@@ -1,10 +1,13 @@
 import { Layout, Text, Toggle, useTheme } from "@ui-kitten/components";
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
 import Divider from "../components/Divider";
 import ProfileItem from "../components/OtherScreen/ProfileItem";
+import { addAuthData } from "../redux/reducers/authSlice";
 
 const OtherScreen = ({ navigation }: any) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   return (
     <Layout style={styles.container}>
@@ -46,7 +49,10 @@ const OtherScreen = ({ navigation }: any) => {
       </Layout>
       <Divider />
       <Layout style={styles.body}>
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => dispatch(addAuthData(null))}
+        >
           <ProfileItem name="corner-down-left-outline" text="Logout" />
         </TouchableOpacity>
       </Layout>
@@ -71,6 +77,15 @@ const styles = StyleSheet.create({
     borderRadius: 45,
     justifyContent: "center",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    
+    elevation: 2,
   },
   initials: {
     fontSize: 35,
