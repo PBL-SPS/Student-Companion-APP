@@ -3,9 +3,12 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import Divider from "../components/Divider";
 import AcademicItem from "../components/OtherScreen/AcademicItem";
+import useAppSelector from "../hooks/useAppSelector";
 
 const ProfileScreen = () => {
   const theme = useTheme();
+  const authData = useAppSelector((state) => state.auth);
+
   return (
     <Layout style={styles.container}>
       <Layout style={styles.header}>
@@ -15,11 +18,14 @@ const ProfileScreen = () => {
             { backgroundColor: theme["background-basic-color-4"] },
           ]}
         >
-          <Text style={styles.initials}>JD</Text>
+          <Text style={styles.initials}>
+            {authData.firstName[0]}
+            {authData.lastName[0]}
+          </Text>
         </Layout>
         <Layout style={styles.headerText}>
           <Text category="h5" adjustsFontSizeToFit={true} numberOfLines={1}>
-            John Doe
+            {authData.firstName} {authData.lastName}
           </Text>
           <Text
             category="s1"
@@ -27,7 +33,7 @@ const ProfileScreen = () => {
             adjustsFontSizeToFit={true}
             numberOfLines={1}
           >
-            jdoe@gmail.com
+            {authData.email}
           </Text>
         </Layout>
       </Layout>
@@ -37,11 +43,10 @@ const ProfileScreen = () => {
           Academic Details
         </Text>
         <Layout>
-          <AcademicItem category="mis id" value="C2K29106156" />
-          <AcademicItem category="year" value="SE" />
-          <AcademicItem category="batch" value="G1" />
-          <AcademicItem category="department" value="comp" />
-          <AcademicItem category="division" value="1" />
+          <AcademicItem category="year" value={authData.year} />
+          <AcademicItem category="batch" value={authData.batch} />
+          <AcademicItem category="department" value={authData.department} />
+          <AcademicItem category="division" value={authData.division} />
         </Layout>
       </Layout>
     </Layout>
