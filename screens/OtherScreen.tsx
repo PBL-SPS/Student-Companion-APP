@@ -4,11 +4,14 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import Divider from "../components/Divider";
 import ProfileItem from "../components/OtherScreen/ProfileItem";
+import useAppSelector from "../hooks/useAppSelector";
 import { addAuthData } from "../redux/reducers/authSlice";
 
 const OtherScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const authData = useAppSelector((state) => state.auth);
+
   return (
     <Layout style={styles.container}>
       <TouchableOpacity
@@ -22,14 +25,17 @@ const OtherScreen = ({ navigation }: any) => {
               { backgroundColor: theme["background-basic-color-4"] },
             ]}
           >
-            <Text style={styles.initials}>JD</Text>
+            <Text style={styles.initials}>
+              {authData?.firstName[0]}
+              {authData?.lastName[0]}
+            </Text>
           </Layout>
           <Layout style={styles.headerText}>
             <Text category="h5" adjustsFontSizeToFit={true}>
-              John Doe
+              {authData.firstName} {authData.lastName}
             </Text>
             <Text category="s1" appearance="hint" adjustsFontSizeToFit={true}>
-              SE-1 | COMP
+              {authData.year}-{authData.division} | {authData.department}
             </Text>
           </Layout>
         </Layout>
@@ -37,14 +43,14 @@ const OtherScreen = ({ navigation }: any) => {
       <Divider />
       <Layout style={styles.body}>
         <TouchableOpacity activeOpacity={0.8}>
-          <ProfileItem name="info-outline" text="Attendance" />
+          <ProfileItem name="info-outline" text="Attendance (Coming Soon)" />
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.8}>
-          <ProfileItem name="calendar-outline" text="Calendar" />
+          <ProfileItem name="calendar-outline" text="Calendar (Coming Soon)" />
         </TouchableOpacity>
         <Layout style={styles.darkMode}>
-          <ProfileItem name="moon-outline" text="Dark Mode" />
-          <Toggle checked={true} />
+          {/* <ProfileItem name="moon-outline" text="Dark Mode" />
+          <Toggle checked={true} /> */}
         </Layout>
       </Layout>
       <Divider />
@@ -82,9 +88,9 @@ const styles = StyleSheet.create({
       width: 0,
       height: 1,
     },
-    shadowOpacity: 0.20,
+    shadowOpacity: 0.2,
     shadowRadius: 1.41,
-    
+
     elevation: 2,
   },
   initials: {

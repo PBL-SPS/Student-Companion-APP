@@ -32,6 +32,10 @@ export const authSlice = createSlice({
       state = action.payload;
       return state;
     },
+    updateAuthData: (state, action: PayloadAction<AuthState | null>) => {
+      state = { ...state, ...action.payload };
+      return state;
+    },
     addTokens: (
       state,
       action: PayloadAction<{ access_token: string; refresh_token: string }>
@@ -43,6 +47,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { addAuthData, addTokens } = authSlice.actions;
+export const { addAuthData, updateAuthData, addTokens } = authSlice.actions;
 
 export default authSlice.reducer;
