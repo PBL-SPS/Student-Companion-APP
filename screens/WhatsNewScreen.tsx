@@ -55,7 +55,7 @@ const WhatsNewScreen = () => {
   }
 
   return (
-    <Layout style={styles.container}>
+    <Layout style={styles.container} level="4">
       <FlatList
         onRefresh={refetch}
         refreshing={isLoading}
