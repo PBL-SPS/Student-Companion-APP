@@ -30,7 +30,7 @@ const WhatsNewCard = ({ whatsnewitem }: { whatsnewitem: WhatsNew }) => {
         )}
         <View style={styles.textWrapper}>
           <Text category="h6">{whatsnewitem.heading}</Text>
-          <Text category="s1">
+          <Text category="s2">
             {whatsnewitem.content.length > 80
               ? whatsnewitem.content.substr(0, 80) + "..."
               : whatsnewitem.content}
