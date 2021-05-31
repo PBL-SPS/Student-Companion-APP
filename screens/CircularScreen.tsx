@@ -28,7 +28,7 @@ const CircularScreen = () => {
       >
         <Layout style={styles.wrapper} level="1">
           <Layout style={styles.outerContainer} level="1">
-            <Layout style={styles.containerIcon}>
+            <Layout level="1" style={styles.containerIcon}>
               <Icon
                 name="newspaper"
                 pack="ion"
@@ -38,8 +38,8 @@ const CircularScreen = () => {
                 }}
               />
             </Layout>
-            <Layout style={styles.containerCard}>
-              <Layout style={styles.card}>
+            <Layout level="1" style={styles.containerCard}>
+              <Layout level="1" style={styles.card}>
                 <Layout
                   style={{
                     flexDirection: "row",
