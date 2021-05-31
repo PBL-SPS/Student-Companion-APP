@@ -11,20 +11,21 @@ function CircularNavigator() {
       <CircularStack.Screen
         name="CircularScreen"
         component={CircularScreen}
-        options={{
-          headerTitle: "Circulars",
-          headerTitleAlign: "center",
-          headerTitleStyle: {
-            fontSize: 24,
-            fontWeight: "500",
-          },
-        }}
+        options={{ headerTitle: "Circulars" }}
+        // options={{
+        //   headerTitle: "Circulars",
+        //   headerTitleAlign: "center",
+        //   headerTitleStyle: {
+        //     fontSize: 24,
+        //     fontWeight: "500",
+        //   },
+        // }}
       />
       <CircularStack.Screen
         name="CircularDetailsScreen"
         component={CircularDetailsScreen}
         options={{
-          headerTitle : "Circular Details"
+          headerTitle: "Circular Details",
         }}
       />
     </CircularStack.Navigator>

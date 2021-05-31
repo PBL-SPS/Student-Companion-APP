@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import { Icon, Layout, List, Text, useTheme } from "@ui-kitten/components";
 import moment from "moment";
 import React from "react";
-import { ListRenderItem, StyleSheet, TouchableOpacity } from "react-native";
+import { ListRenderItem, StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useQuery } from "react-query";
 import AxiosInstance from "../axios";
@@ -87,6 +87,7 @@ const CircularScreen = () => {
       return res.data;
     })
   );
+
   if (stateCircular.length == 0 && isLoading)
     return (
       <Layout>
@@ -102,13 +103,18 @@ const CircularScreen = () => {
     );
 
   return (
-    <Layout level="4" style={{ flexGrow: 1}}>
+    <Layout level="4" style={{ flexGrow: 1 }}>
       <List
-        style={{ flexGrow: 1 }}
+        // style={{ flexGrow: 1 }}
         onRefresh={refetch}
         refreshing={isLoading}
         data={stateCircular}
         renderItem={CircularCard}
+        style={{
+          backgroundColor: theme["background-basic-color-4"],
+          paddingTop: 5,
+          paddingBottom: 10,
+        }}
         // ItemSeparatorComponent={Divider}
       />
       {/* <Button onPress={() => navigation.navigate("CircularDetailsScreen")}>
@@ -159,8 +165,8 @@ const styles = StyleSheet.create({
   wrapper: {
     overflow: "hidden",
     marginHorizontal: 10,
-    marginBottom : 10,
-    marginTop : 5,
+    marginBottom: 10,
+    marginTop: 5,
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
