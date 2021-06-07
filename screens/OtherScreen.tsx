@@ -13,24 +13,19 @@ const OtherScreen = ({ navigation }: any) => {
   const authData = useAppSelector((state) => state.auth);
 
   return (
-    <Layout style={styles.container}>
+    <Layout level="4" style={styles.container}>
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => navigation.navigate("ProfileScreen")}
       >
-        <Layout style={styles.header}>
-          <Layout
-            style={[
-              styles.initialsWrapper,
-              { backgroundColor: theme["background-basic-color-4"] },
-            ]}
-          >
+        <Layout level="4" style={styles.header}>
+          <Layout style={[styles.initialsWrapper]} level="1">
             <Text style={styles.initials}>
               {authData?.firstName[0]}
               {authData?.lastName[0]}
             </Text>
           </Layout>
-          <Layout style={styles.headerText}>
+          <Layout level="4" style={styles.headerText}>
             <Text category="h5" adjustsFontSizeToFit={true}>
               {authData.firstName} {authData.lastName}
             </Text>
@@ -41,20 +36,20 @@ const OtherScreen = ({ navigation }: any) => {
         </Layout>
       </TouchableOpacity>
       <Divider />
-      <Layout style={styles.body}>
+      <Layout level="4" style={styles.body}>
         <TouchableOpacity activeOpacity={0.8}>
           <ProfileItem name="info-outline" text="Attendance (Coming Soon)" />
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.8}>
           <ProfileItem name="calendar-outline" text="Calendar (Coming Soon)" />
         </TouchableOpacity>
-        <Layout style={styles.darkMode}>
+        <Layout level="4" style={styles.darkMode}>
           {/* <ProfileItem name="moon-outline" text="Dark Mode" />
           <Toggle checked={true} /> */}
         </Layout>
       </Layout>
       <Divider />
-      <Layout style={styles.body}>
+      <Layout level="4" style={styles.body}>
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => dispatch(addAuthData(null))}

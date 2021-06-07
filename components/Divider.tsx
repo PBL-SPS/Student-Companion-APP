@@ -5,7 +5,7 @@ import { StyleSheet, useColorScheme } from "react-native";
 const Divider = () => {
   const colorScheme = useColorScheme();
   if (colorScheme === "dark")
-    return <Layout level="4" style={{ height: 2 }}></Layout>;
+    return <Layout level="1" style={{ height: 2 }}></Layout>;
 
   return (
     <Layout

@@ -2,15 +2,15 @@ import { useNavigation } from "@react-navigation/core";
 import { Layout, Text } from "@ui-kitten/components";
 import moment from "moment";
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { Image, StyleSheet, View } from "react-native";
 import { WhatsNew } from "../../screens/WhatsNewScreen";
+import TouchableScale from "../Animated/TouchableScale";
 
 const WhatsNewCard = ({ whatsnewitem }: { whatsnewitem: WhatsNew }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableWithoutFeedback
+    <TouchableScale
       onPress={() =>
         navigation.navigate("WhatsNewDetailScreen", {
           heading: whatsnewitem.heading,
@@ -19,7 +19,6 @@ const WhatsNewCard = ({ whatsnewitem }: { whatsnewitem: WhatsNew }) => {
           createdAt: whatsnewitem.createdAt,
         })
       }
-      // activeOpacity={0.6}
     >
       <Layout style={styles.card} level="1">
         {whatsnewitem.file && (
@@ -46,7 +45,7 @@ const WhatsNewCard = ({ whatsnewitem }: { whatsnewitem: WhatsNew }) => {
           </Text>
         </View>
       </Layout>
-    </TouchableWithoutFeedback>
+    </TouchableScale>
   );
 };
 
@@ -59,12 +58,12 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: 2,
     },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
 
-    elevation: 6,
+    elevation: 5,
   },
   image: {
     borderTopLeftRadius: 15,

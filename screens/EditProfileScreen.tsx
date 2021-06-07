@@ -96,9 +96,13 @@ const EditProfileScreen = () => {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: theme["background-basic-color-1"] }}>
-      <Layout style={styles.container}>
-        <Layout>
+    <ScrollView style={{ backgroundColor: theme["background-basic-color-4"] }}
+    contentContainerStyle={{
+      paddingTop : 20
+    }}
+    >
+      <Layout level="4" style={styles.container}>
+        <Layout level="4">
           <Formik
             initialValues={{
               firstname: authData.firstName,
@@ -122,7 +126,7 @@ const EditProfileScreen = () => {
               setFieldValue,
             }) => (
               <>
-                <Layout>
+                <Layout level="4">
                   <View style={styles.inputField}>
                     <Input
                       label="Firstname"
@@ -245,7 +249,7 @@ const EditProfileScreen = () => {
                     )}
                   </View>
                 </Layout>
-                <Layout>
+                <Layout level="4">
                   {isLoading ? (
                     <Button
                       accessoryLeft={LoadingIndicator}

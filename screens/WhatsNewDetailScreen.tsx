@@ -11,12 +11,12 @@ const WhatsNewDetailScreen = () => {
   const fileDetail = route.params.file;
   const createdAtDetail = route.params.createdAt;
   return (
-    <Layout style={styles.container}>
+    <Layout level="4" style={styles.container}>
       {fileDetail?.link && (
         <Image style={styles.img} source={{ uri: fileDetail?.link }} />
       )}
       <ScrollView>
-        <Layout style={styles.body}>
+        <Layout level="4" style={styles.body}>
           <View style={styles.textWrapper}>
             <Text style={styles.heading} category="h3">
               {headingDetail}

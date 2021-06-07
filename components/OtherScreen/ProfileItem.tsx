@@ -10,7 +10,7 @@ interface propTypes {
 const ProfileItem = ({ name, text, ...props }: propTypes) => {
   const theme = useTheme();
   return (
-    <Layout style={styles.container}>
+    <Layout style={styles.container} level="4">
       <Icon name={name} fill={theme["color-primary-500"]} style={styles.icon} />
       <Text category="h6" {...props}>
         {text}

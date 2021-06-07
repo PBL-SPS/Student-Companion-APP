@@ -3,9 +3,9 @@ import { Icon, Layout, List, Text, useTheme } from "@ui-kitten/components";
 import moment from "moment";
 import React from "react";
 import { ListRenderItem, StyleSheet } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useQuery } from "react-query";
 import AxiosInstance from "../axios";
+import TouchableScale from "../components/Animated/TouchableScale";
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { getCirculars } from "../redux/reducers/circularSlice";
@@ -19,7 +19,7 @@ const CircularScreen = () => {
   //Circular Card
   const CircularCard: ListRenderItem<CircularCardProps> = ({ item }) => {
     return (
-      <TouchableWithoutFeedback
+      <TouchableScale
         onPress={() =>
           navigation.navigate("CircularDetailsScreen", {
             ...item,
@@ -73,7 +73,7 @@ const CircularScreen = () => {
             <Text category="c2">{moment(item.createdAt).fromNow()}</Text>
           </Layout>
         </Layout>
-      </TouchableWithoutFeedback>
+      </TouchableScale>
     );
   };
   const {
@@ -106,6 +106,10 @@ const CircularScreen = () => {
     <Layout level="4" style={{ flexGrow: 1 }}>
       <List
         // style={{ flexGrow: 1 }}
+        contentContainerStyle={{
+          paddingTop : 5,
+          paddingBottom : 10
+        }}
         onRefresh={refetch}
         refreshing={isLoading}
         data={stateCircular}
