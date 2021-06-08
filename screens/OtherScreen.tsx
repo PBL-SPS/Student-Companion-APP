@@ -42,8 +42,11 @@ const OtherScreen = ({ navigation }: any) => {
       </TouchableOpacity>
       <Divider />
       <Layout style={styles.body}>
-        <TouchableOpacity activeOpacity={0.8}>
-          <ProfileItem name="info-outline" text="Attendance (Coming Soon)" />
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("AttendanceScreen")}
+        >
+          <ProfileItem name="info-outline" text="Attendance" />
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.8}>
           <ProfileItem name="calendar-outline" text="Calendar (Coming Soon)" />
