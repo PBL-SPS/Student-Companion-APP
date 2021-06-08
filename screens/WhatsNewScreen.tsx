@@ -57,6 +57,13 @@ const WhatsNewScreen = () => {
   return (
     <Layout style={styles.container} level="4">
       <FlatList
+        contentContainerStyle={{
+          paddingTop: 10,
+          paddingBottom: 10,
+        }}
+        style={{
+          flex: 1
+        }}
         onRefresh={refetch}
         refreshing={isLoading}
         data={whatsNewFeed}

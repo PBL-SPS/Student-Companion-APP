@@ -10,20 +10,15 @@ const ProfileScreen = () => {
   const authData = useAppSelector((state) => state.auth);
 
   return (
-    <Layout style={styles.container}>
-      <Layout style={styles.header}>
-        <Layout
-          style={[
-            styles.initialsWrapper,
-            { backgroundColor: theme["background-basic-color-4"] },
-          ]}
-        >
+    <Layout level="4" style={styles.container}>
+      <Layout level="4" style={styles.header}>
+        <Layout level="1" style={[styles.initialsWrapper]}>
           <Text style={styles.initials}>
             {authData.firstName[0]}
             {authData.lastName[0]}
           </Text>
         </Layout>
-        <Layout style={styles.headerText}>
+        <Layout level="4" style={styles.headerText}>
           <Text category="h5" adjustsFontSizeToFit={true} numberOfLines={1}>
             {authData.firstName} {authData.lastName}
           </Text>
@@ -38,11 +33,11 @@ const ProfileScreen = () => {
         </Layout>
       </Layout>
       <Divider />
-      <Layout style={styles.body}>
+      <Layout level="4" style={styles.body}>
         <Text style={styles.academicText} category="p1" appearance="hint">
           Academic Details
         </Text>
-        <Layout>
+        <Layout level="4">
           <AcademicItem category="year" value={authData.year} />
           <AcademicItem category="batch" value={authData.batch} />
           <AcademicItem category="department" value={authData.department} />

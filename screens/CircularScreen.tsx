@@ -2,10 +2,10 @@ import { useNavigation } from "@react-navigation/core";
 import { Icon, Layout, List, Text, useTheme } from "@ui-kitten/components";
 import moment from "moment";
 import React from "react";
-import { ListRenderItem, StyleSheet, TouchableOpacity } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { ListRenderItem, StyleSheet } from "react-native";
 import { useQuery } from "react-query";
 import AxiosInstance from "../axios";
+import TouchableScale from "../components/Animated/TouchableScale";
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { getCirculars } from "../redux/reducers/circularSlice";
@@ -19,7 +19,7 @@ const CircularScreen = () => {
   //Circular Card
   const CircularCard: ListRenderItem<CircularCardProps> = ({ item }) => {
     return (
-      <TouchableWithoutFeedback
+      <TouchableScale
         onPress={() =>
           navigation.navigate("CircularDetailsScreen", {
             ...item,
@@ -28,7 +28,7 @@ const CircularScreen = () => {
       >
         <Layout style={styles.wrapper} level="1">
           <Layout style={styles.outerContainer} level="1">
-            <Layout style={styles.containerIcon}>
+            <Layout level="1" style={styles.containerIcon}>
               <Icon
                 name="newspaper"
                 pack="ion"
@@ -38,8 +38,8 @@ const CircularScreen = () => {
                 }}
               />
             </Layout>
-            <Layout style={styles.containerCard}>
-              <Layout style={styles.card}>
+            <Layout level="1" style={styles.containerCard}>
+              <Layout level="1" style={styles.card}>
                 <Layout
                   style={{
                     flexDirection: "row",
@@ -73,7 +73,7 @@ const CircularScreen = () => {
             <Text category="c2">{moment(item.createdAt).fromNow()}</Text>
           </Layout>
         </Layout>
-      </TouchableWithoutFeedback>
+      </TouchableScale>
     );
   };
   const {
@@ -87,6 +87,7 @@ const CircularScreen = () => {
       return res.data;
     })
   );
+
   if (stateCircular.length == 0 && isLoading)
     return (
       <Layout>
@@ -102,13 +103,22 @@ const CircularScreen = () => {
     );
 
   return (
-    <Layout level="4" style={{ flexGrow: 1}}>
+    <Layout level="4" style={{ flexGrow: 1 }}>
       <List
-        style={{ flexGrow: 1 }}
+        // style={{ flexGrow: 1 }}
+        contentContainerStyle={{
+          paddingTop : 5,
+          paddingBottom : 10
+        }}
         onRefresh={refetch}
         refreshing={isLoading}
         data={stateCircular}
         renderItem={CircularCard}
+        style={{
+          backgroundColor: theme["background-basic-color-4"],
+          paddingTop: 5,
+          paddingBottom: 10,
+        }}
         // ItemSeparatorComponent={Divider}
       />
       {/* <Button onPress={() => navigation.navigate("CircularDetailsScreen")}>
@@ -159,8 +169,8 @@ const styles = StyleSheet.create({
   wrapper: {
     overflow: "hidden",
     marginHorizontal: 10,
-    marginBottom : 10,
-    marginTop : 5,
+    marginBottom: 10,
+    marginTop: 5,
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {

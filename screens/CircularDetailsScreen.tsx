@@ -29,12 +29,12 @@ const CircularDetailsScreen = (props: any) => {
   );
   const theme = useTheme()
   return (
-    <Layout style={styles.wrapper}>
-      <Layout style={styles.outerContainer}>
+    <Layout style={styles.wrapper} level="4">
+      <Layout style={styles.outerContainer} level="4">
         <Text category="h4" style={styles.heading}>
           {heading}
         </Text>
-        <Layout style={styles.innerContainer1}>
+        <Layout style={styles.innerContainer1}  level="4">
           <Text appearance="hint" category="s1">
             {moment(createdAt).fromNow()}
           </Text>
@@ -62,6 +62,7 @@ const CircularDetailsScreen = (props: any) => {
                 margin: 2,
                 width: "100%",
               }}
+              level="4"
               key={file.id.toString()}
             >
               <Layout
@@ -71,6 +72,7 @@ const CircularDetailsScreen = (props: any) => {
                   width: "100%",
                   flexShrink: 1,
                 }}
+                level="4"
               >
                 <Icon
                   name="document-outline"

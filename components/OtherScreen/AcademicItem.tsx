@@ -9,7 +9,7 @@ interface propTypes {
 
 const AcademicItem = ({ category, value }: propTypes) => {
   return (
-    <Layout style={styles.textWrapper}>
+    <Layout style={styles.textWrapper} level="4">
       <View>
         <Text style={styles.categoryText}>{category}</Text>
       </View>
