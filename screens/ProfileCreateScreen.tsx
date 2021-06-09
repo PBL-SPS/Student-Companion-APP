@@ -7,11 +7,19 @@ import {
   SelectItem,
   Spinner,
   Text,
+  useTheme,
 } from "@ui-kitten/components";
+import { AxiosError } from "axios";
 import { Formik } from "formik";
 import React from "react";
-import { ScrollView, StatusBar, StyleSheet, View } from "react-native";
-import { useMutation } from "react-query";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
+import { useMutation, useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import AxiosInstance from "../axios";
@@ -64,6 +72,34 @@ export interface Profile {
   department: string;
 }
 
+export interface CollegeDataResponse {
+  divisions?:
+    | DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity[]
+    | null;
+  departments?:
+    | DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity[]
+    | null;
+  batches?:
+    | DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity[]
+    | null;
+  years?:
+    | DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity[]
+    | null;
+}
+
+export interface CollegeData {
+  divisions?: string[] | null;
+  departments?: string[] | null;
+  batches?: string[] | null;
+  years?: string[] | null;
+}
+export interface DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(6).label("Password"),
@@ -87,24 +123,78 @@ const LoadingIndicator = (props: any) => (
 );
 
 const ProfileCreateScreen = () => {
-  const navigation = useNavigation();
+  const theme = useTheme();
   const route = useRoute();
+  const navigation = useNavigation();
   const prevData = route.params?.data;
+  console.log(prevData,"prevData")
   const dispatch = useDispatch();
-  const { isLoading, mutate, error, isError } = useMutation<SignupRes, Error>(
-    (signupData) =>
-      AxiosInstance.post<SignupRes>("/auth/signup", signupData).then((res) => {
-        dispatch(
-          addAuthData({
-            ...res.data.user,
-            ...res.data.profile,
-            access_token: res.data.accessToken,
-            refresh_token: res.data.refreshToken,
-          })
-        );
-        return res.data;
-      })
+  const { isLoading, mutate, error, isError } = useMutation<
+    SignupRes,
+    AxiosError
+  >((signupData) =>
+    AxiosInstance.post<SignupRes>("/auth/signup", signupData).then((res) => {
+      dispatch(
+        addAuthData({
+          ...res.data.user,
+          ...res.data.profile,
+          access_token: res.data.accessToken,
+          refresh_token: res.data.refreshToken,
+        })
+      );
+      return res.data;
+    })
   );
+  const {
+    data: collegeData,
+    isLoading: isColLoading,
+    isError: isColError,
+    error: colError,
+  } = useQuery<CollegeData, AxiosError>(["collegeData"], () =>
+    AxiosInstance.get(`/collegeData`).then((res) => {
+      return {
+        batches: res.data.batches.map(
+          (
+            batch: DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity
+          ) => batch.name
+        ),
+        divisions: res.data.divisions.map(
+          (
+            division: DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity
+          ) => division.name
+        ),
+        departments: res.data.departments.map(
+          (
+            department: DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity
+          ) => department.name
+        ),
+        years: res.data.years.map(
+          (
+            year: DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity
+          ) => year.name
+        ),
+      };
+    })
+  );
+
+  if (isColLoading) {
+    return (
+      <Layout
+        level="4"
+        style={{
+          flexGrow: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator
+          size="large"
+          color={theme["color-primary-default"]}
+        />
+      </Layout>
+    );
+  }
+
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
       <Layout level="4" style={styles.container}>
@@ -126,15 +216,7 @@ const ProfileCreateScreen = () => {
           )}
           <Formik
             initialValues={{
-              email: prevData.email,
-              password: prevData.password,
-              confPassword: prevData.confPassword,
-              firstName: prevData.firstName,
-              lastName: prevData.lastName,
-              batch: 0,
-              division: 0,
-              department: 0,
-              year: 0,
+              ...prevData,
             }}
             onSubmit={(data) =>
               mutate({
@@ -143,10 +225,10 @@ const ProfileCreateScreen = () => {
                 email: data.email,
                 password: data.password,
                 role: "STUDENT",
-                year: years[data.year],
-                batch: batches[data.batch],
-                department: departments[data.department],
-                division: divisions[data.division],
+                year: collegeData.years[data.year],
+                batch: collegeData.batches[data.batch],
+                department: collegeData.departments[data.department],
+                division: collegeData.divisions[data.division],
               })
             }
             validationSchema={validationSchema}
@@ -168,9 +250,9 @@ const ProfileCreateScreen = () => {
                     onSelect={(index) => setFieldValue("year", index.row)}
                     label={"Year"}
                     onBlur={() => setFieldTouched("year")}
-                    value={years[values.year]}
+                    value={collegeData.years[values.year]}
                   >
-                    {years.map((year, index) => (
+                    {collegeData.years.map((year, index) => (
                       <SelectItem key={index.toString()} title={year} />
                     ))}
                   </Select>
@@ -188,9 +270,9 @@ const ProfileCreateScreen = () => {
                     onSelect={(index) => setFieldValue("department", index.row)}
                     label={"Department"}
                     onBlur={() => setFieldTouched("department")}
-                    value={departments[values.department]}
+                    value={collegeData.departments[values.department]}
                   >
-                    {departments.map((department, index) => (
+                    {collegeData.departments.map((department, index) => (
                       <SelectItem key={index.toString()} title={department} />
                     ))}
                   </Select>
@@ -208,9 +290,9 @@ const ProfileCreateScreen = () => {
                     onSelect={(index) => setFieldValue("batch", index.row)}
                     label={"Batch"}
                     onBlur={() => setFieldTouched("batch")}
-                    value={batches[values.batch]}
+                    value={collegeData.batches[values.batch]}
                   >
-                    {batches.map((batch, index) => (
+                    {collegeData.batches.map((batch, index) => (
                       <SelectItem key={index.toString()} title={batch} />
                     ))}
                   </Select>
@@ -228,9 +310,9 @@ const ProfileCreateScreen = () => {
                     onSelect={(index) => setFieldValue("division", index.row)}
                     label={"Division"}
                     onBlur={() => setFieldTouched("division")}
-                    value={divisions[values.division]}
+                    value={collegeData.divisions[values.division]}
                   >
-                    {divisions.map((division, index) => (
+                    {collegeData.divisions.map((division, index) => (
                       <SelectItem key={index.toString()} title={division} />
                     ))}
                   </Select>
@@ -262,6 +344,26 @@ const ProfileCreateScreen = () => {
                       accessoryLeft={LoadingIndicator}
                     ></Button>
                   )}
+                  <Button
+                    appearance="outline"
+                    style={{
+                      paddingHorizontal: 20,
+                      borderRadius: 50,
+                      marginTop: 20,
+                    }}
+                    onPress={() =>
+                      navigation.navigate("Signup", {
+                        data: {
+                          batch: values.batch,
+                          division: values.division,
+                          department: values.department,
+                          year: values.year,
+                        },
+                      })
+                    }
+                  >
+                    Back
+                  </Button>
                 </Layout>
               </Layout>
             )}
@@ -291,8 +393,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   footer: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: "column",
+    justifyContent: "space-between",
     marginTop: 20,
   },
   indicator: {

@@ -1,12 +1,13 @@
 import * as eva from "@eva-design/eva";
 import {
   dark as materialDark,
-  light as materialLight,
+  light as materialLight
 } from "@eva-design/material";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
@@ -16,11 +17,10 @@ import useColorScheme from "./hooks/useColorScheme";
 import { IonIconsPack } from "./icons/IonIcons";
 import Navigation from "./navigation";
 import { persistor, store } from "./redux/store";
-import LoginScreen from "./screens/LoginScreen";
-import SignupScreen from "./screens/SignupScreen";
 import { customEvaTheme } from "./theme/customTheme";
 
 const queryClient = new QueryClient();
+LogBox.ignoreLogs(["Setting a timer"]);
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
