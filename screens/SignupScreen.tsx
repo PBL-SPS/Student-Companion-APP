@@ -1,7 +1,7 @@
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation, useRoute } from "@react-navigation/core";
 import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar, StyleSheet } from "react-native";
 import {
   ScrollView,
@@ -11,7 +11,7 @@ import * as Yup from "yup";
 import ErrorMessage from "../components/Error/ErrorMessage";
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().required().email().label("Email"),
+  email: Yup.string().required().email().lowercase().label("Email"),
   password: Yup.string().required().min(6).label("Password"),
   confPassword: Yup.string()
     .required()
@@ -25,6 +25,22 @@ const validationSchema = Yup.object().shape({
 const SignupScreen = () => {
   const [securePasswordEntry, setSecurePasswordEntry] = useState(true);
   const [secureConPassEntry, setSecureConPassEntry] = useState(true);
+  const [nextScreenData, setnextScreenData] = useState({
+    batch: 0,
+    division: 0,
+    department: 0,
+    year: 0,
+  });
+  const route = useRoute();
+  useEffect(() => {
+    if (!!route.params?.data) {
+      setnextScreenData(route.params?.data);
+    }
+    console.log(route.params?.data, "signup data");
+
+    return () => {};
+  }, [route.params?.data]);
+
   const navigation = useNavigation();
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
@@ -33,15 +49,11 @@ const SignupScreen = () => {
           level="4"
           style={{
             minHeight: 150,
-            flexDirection : "column",
-            justifyContent : "center"
+            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
-          <Text
-            category="h1"
-          >
-            Create{"\n"}Account.
-          </Text>
+          <Text category="h1">Create{"\n"}Account.</Text>
         </Layout>
         <Layout level="4" style={{ flexGrow: 1 }}>
           <Formik
@@ -52,7 +64,11 @@ const SignupScreen = () => {
               firstName: "",
               lastName: "",
             }}
-            onSubmit={(data) => navigation.navigate("ProfileCreate", { data })}
+            onSubmit={(data) =>
+              navigation.navigate("ProfileCreate", {
+                data: { ...data, ...nextScreenData },
+              })
+            }
             validationSchema={validationSchema}
           >
             {({
