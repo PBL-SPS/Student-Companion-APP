@@ -10,8 +10,33 @@ import {
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { useMutation } from "react-query";
 import * as Yup from "yup";
+import AxiosInstance from "../axios";
 import ErrorMessage from "../components/Error/ErrorMessage";
+import useAppDispatch from "../hooks/useAppDispatch";
+import {
+  addAttendanceData,
+  addMISDetails,
+} from "../redux/reducers/attendanceSlice";
+
+export interface misCredentials {
+  misId?: String;
+  misPassword?: String;
+}
+
+export interface Attendance {
+  formDetails?: misCredentials | null;
+  attendance?: AttendanceEntity[] | null;
+  totalAverage?: string;
+}
+
+export interface AttendanceEntity {
+  subject: string;
+  totalLectures: string;
+  attendedLectures: string;
+  average: string;
+}
 
 const validationSchema = Yup.object().shape({
   misId: Yup.string().required().label("MIS ID"),
@@ -27,10 +52,8 @@ const LoadingIndicator = (props: any) => (
 const MISDetailsScreen = () => {
   const [loading, setLoading] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
-
-  const AlertIcon = (props: any) => (
-    <Icon {...props} name="alert-circle-outline" />
-  );
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
 
   const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -42,8 +65,28 @@ const MISDetailsScreen = () => {
     </TouchableWithoutFeedback>
   );
 
-  const onSubmit = () => {
-    console.log("Submitted");
+  const { isLoading, mutate, error, isError } = useMutation<Attendance, Error>(
+    (attendanceData) =>
+      AxiosInstance.post<Attendance>(
+        "/student/attendance",
+        attendanceData
+      ).then((res) => {
+        const resData = res.data;
+        console.log(res.config);
+        dispatch(addMISDetails(JSON.parse(res.config.data)));
+        dispatch(
+          addAttendanceData({
+            totalAverage: resData.totalAverage,
+            attendance: resData.attendance,
+          })
+        );
+        navigation.navigate("AttendanceScreen");
+        return res.data;
+      })
+  );
+
+  const onSubmit = (values: misCredentials) => {
+    mutate(values);
   };
 
   return (
@@ -86,7 +129,6 @@ const MISDetailsScreen = () => {
                     label="MIS Password"
                     placeholder="MIS Password"
                     value={values.misPassword}
-                    caption="Should contain at least 6 characters"
                     accessoryRight={renderIcon}
                     secureTextEntry={secureTextEntry}
                     onChangeText={handleChange("misPassword")}
@@ -100,9 +142,16 @@ const MISDetailsScreen = () => {
                 </View>
               </Layout>
               <Layout>
-                <Button onPress={handleSubmit} style={styles.button}>
-                  Submit
-                </Button>
+                {isLoading ? (
+                  <Button
+                    accessoryLeft={LoadingIndicator}
+                    style={styles.button}
+                  ></Button>
+                ) : (
+                  <Button onPress={handleSubmit} style={styles.button}>
+                    Submit
+                  </Button>
+                )}
               </Layout>
             </>
           )}

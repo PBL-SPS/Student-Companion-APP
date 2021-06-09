@@ -11,6 +11,7 @@ const OtherScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const authData = useAppSelector((state) => state.auth);
+  const AttendanceState = useAppSelector((state) => state.attendance);
 
   return (
     <Layout level="4" style={styles.container}>
@@ -39,7 +40,11 @@ const OtherScreen = ({ navigation }: any) => {
       <Layout style={styles.body}>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => navigation.navigate("AttendanceScreen")}
+          onPress={() =>
+            navigation.navigate(
+              AttendanceState ? "AttendanceScreen" : "MISDetailsScreen"
+            )
+          }
         >
           <ProfileItem name="info-outline" text="Attendance" />
         </TouchableOpacity>

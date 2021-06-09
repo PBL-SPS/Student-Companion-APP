@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import {
   Drawer,
   DrawerGroup,
@@ -8,35 +8,58 @@ import {
   Layout,
   Text,
 } from "@ui-kitten/components";
+import useAppSelector from "../hooks/useAppSelector";
+import { useMutation } from "react-query";
+import { Attendance } from "./MISDetailsScreen";
+import AxiosInstance from "../axios";
+import useAppDispatch from "../hooks/useAppDispatch";
+import { addAttendanceData } from "../redux/reducers/attendanceSlice";
 
 const AttendanceScreen = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(null);
+  const AttendanceState = useAppSelector((state) => state.attendance);
+  const dispatch = useAppDispatch();
 
-  const titleText = () => {
+  const { isLoading, mutate, error, isError } = useMutation<Attendance, Error>(
+    (attendanceData) =>
+      AxiosInstance.post<Attendance>(
+        "/student/attendance",
+        attendanceData
+      ).then((res) => {
+        const resData = res.data;
+        dispatch(
+          addAttendanceData({
+            totalAverage: resData.totalAverage,
+            attendance: resData.attendance,
+          })
+        );
+        return res.data;
+      })
+  );
+
+  const titleText = (title: any, percent: any) => {
     return (
       <View style={styles.textContainer}>
-        <Text style={styles.textTitle}>
-          CE- DATA STRUCTURES & ALGORITHMS-TH
-        </Text>
-        <Text>100%</Text>
+        <Text style={styles.textTitle}>{title}</Text>
+        <Text>{percent} %</Text>
       </View>
     );
   };
 
-  const attendedText = () => {
+  const attendedText = (text: any, number: any) => {
     return (
       <View style={styles.textContainer}>
-        <Text style={styles.textInside}>Attended Lectures</Text>
-        <Text>20</Text>
+        <Text style={styles.textInside}>{text}</Text>
+        <Text>{number}</Text>
       </View>
     );
   };
 
-  const totalText = () => {
+  const totalText = (text: any, number: any) => {
     return (
       <View style={styles.textContainer}>
-        <Text style={styles.textInside}>Total Lectures</Text>
-        <Text>22</Text>
+        <Text style={styles.textInside}>{text}</Text>
+        <Text>{number}</Text>
       </View>
     );
   };
@@ -45,91 +68,50 @@ const AttendanceScreen = () => {
     return <Icon {...props} name="radio-button-off-outline" />;
   };
 
+  const onRefresh = () => {
+    if (AttendanceState.formDetails) {
+      mutate({
+        misId: AttendanceState?.formDetails.misId,
+        misPassword: AttendanceState?.formDetails.misPassword,
+      });
+    }
+  };
+
   return (
     <Layout level="4" style={styles.container}>
       <Layout level="4" style={styles.header}>
-        <Text category="h5">Sanket Kulkarni</Text>
-        <Text category="h5">94.23 %</Text>
+        <Text category="h5">Total Attendance</Text>
+        <Text category="h5">{AttendanceState?.totalAverage} %</Text>
       </Layout>
       <Layout style={styles.body}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl onRefresh={onRefresh} refreshing={isLoading} />
+          }
+        >
           <Drawer
             style={{ marginBottom: 70 }}
             selectedIndex={selectedIndex}
             onSelect={(index) => setSelectedIndex(index)}
           >
-            <DrawerGroup
-              style={styles.drawerGroup}
-              title={titleText}
-              accessoryLeft={leftIcon}
-            >
-              <DrawerItem title={attendedText} />
-              <DrawerItem title={totalText} />
-            </DrawerGroup>
-            <DrawerGroup
-              style={styles.drawerGroup}
-              title={titleText}
-              accessoryLeft={leftIcon}
-            >
-              <DrawerItem title={attendedText} />
-              <DrawerItem title={totalText} />
-            </DrawerGroup>
-            <DrawerGroup
-              style={styles.drawerGroup}
-              title={titleText}
-              accessoryLeft={leftIcon}
-            >
-              <DrawerItem title={attendedText} />
-              <DrawerItem title={totalText} />
-            </DrawerGroup>
-            <DrawerGroup
-              style={styles.drawerGroup}
-              title={titleText}
-              accessoryLeft={leftIcon}
-            >
-              <DrawerItem title={attendedText} />
-              <DrawerItem title={totalText} />
-            </DrawerGroup>
-            <DrawerGroup
-              style={styles.drawerGroup}
-              title={titleText}
-              accessoryLeft={leftIcon}
-            >
-              <DrawerItem title={attendedText} />
-              <DrawerItem title={totalText} />
-            </DrawerGroup>
-            <DrawerGroup
-              style={styles.drawerGroup}
-              title={titleText}
-              accessoryLeft={leftIcon}
-            >
-              <DrawerItem title={attendedText} />
-              <DrawerItem title={totalText} />
-            </DrawerGroup>
-            <DrawerGroup
-              style={styles.drawerGroup}
-              title={titleText}
-              accessoryLeft={leftIcon}
-            >
-              <DrawerItem title={attendedText} />
-              <DrawerItem title={totalText} />
-            </DrawerGroup>
-            <DrawerGroup
-              style={styles.drawerGroup}
-              title={titleText}
-              accessoryLeft={leftIcon}
-            >
-              <DrawerItem title={attendedText} />
-              <DrawerItem title={totalText} />
-            </DrawerGroup>
-            <DrawerGroup
-              style={styles.drawerGroup}
-              title={titleText}
-              accessoryLeft={leftIcon}
-            >
-              <DrawerItem title={attendedText} />
-              <DrawerItem title={totalText} />
-            </DrawerGroup>
+            {AttendanceState.attendance.map((attend) => (
+              <DrawerGroup
+                style={styles.drawerGroup}
+                title={() => titleText(attend.subject, attend.average)}
+                accessoryLeft={leftIcon}
+              >
+                <DrawerItem
+                  title={() =>
+                    attendedText("Attended Lectures", attend.attendedLectures)
+                  }
+                />
+                <DrawerItem
+                  title={() =>
+                    totalText("Total Lectures", attend.totalLectures)
+                  }
+                />
+              </DrawerGroup>
+            ))}
           </Drawer>
         </ScrollView>
       </Layout>
