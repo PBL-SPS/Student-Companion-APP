@@ -50,7 +50,6 @@ const LoadingIndicator = (props: any) => (
 );
 
 const MISDetailsScreen = () => {
-  const [loading, setLoading] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();

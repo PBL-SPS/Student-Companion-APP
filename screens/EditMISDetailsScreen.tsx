@@ -10,8 +10,17 @@ import {
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { useMutation } from "react-query";
 import * as Yup from "yup";
+import AxiosInstance from "../axios";
 import ErrorMessage from "../components/Error/ErrorMessage";
+import useAppDispatch from "../hooks/useAppDispatch";
+import useAppSelector from "../hooks/useAppSelector";
+import {
+  addAttendanceData,
+  addMISDetails,
+} from "../redux/reducers/attendanceSlice";
+import { Attendance, misCredentials } from "./MISDetailsScreen";
 
 const validationSchema = Yup.object().shape({
   misId: Yup.string().required().label("MIS ID"),
@@ -25,12 +34,10 @@ const LoadingIndicator = (props: any) => (
 );
 
 const EditMISDetailsScreen = () => {
-  const [loading, setLoading] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
-
-  const AlertIcon = (props: any) => (
-    <Icon {...props} name="alert-circle-outline" />
-  );
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation();
+  const AttendanceState = useAppSelector((state) => state.attendance);
 
   const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
@@ -42,15 +49,38 @@ const EditMISDetailsScreen = () => {
     </TouchableWithoutFeedback>
   );
 
-  const onSubmit = () => {
-    console.log("Submitted");
+  const { isLoading, mutate, error, isError } = useMutation<Attendance, Error>(
+    (attendanceData) =>
+      AxiosInstance.post<Attendance>(
+        "/student/attendance",
+        attendanceData
+      ).then((res) => {
+        const resData = res.data;
+        console.log(res.config);
+        dispatch(addMISDetails(JSON.parse(res.config.data)));
+        dispatch(
+          addAttendanceData({
+            totalAverage: resData.totalAverage,
+            attendance: resData.attendance,
+          })
+        );
+        navigation.navigate("AttendanceScreen");
+        return res.data;
+      })
+  );
+
+  const onSubmit = (values: misCredentials) => {
+    mutate(values);
   };
 
   return (
     <Layout style={styles.container}>
       <Layout style={{ flex: 0.6 }}>
         <Formik
-          initialValues={{ misId: "", misPassword: "" }}
+          initialValues={{
+            misId: AttendanceState.formDetails.misId,
+            misPassword: AttendanceState.formDetails.misPassword,
+          }}
           onSubmit={onSubmit}
           validationSchema={validationSchema}
         >
@@ -97,9 +127,16 @@ const EditMISDetailsScreen = () => {
                 </View>
               </Layout>
               <Layout>
-                <Button onPress={handleSubmit} style={styles.button}>
-                  Submit
-                </Button>
+                {isLoading ? (
+                  <Button
+                    accessoryLeft={LoadingIndicator}
+                    style={styles.button}
+                  ></Button>
+                ) : (
+                  <Button onPress={handleSubmit} style={styles.button}>
+                    Update
+                  </Button>
+                )}
               </Layout>
             </>
           )}
