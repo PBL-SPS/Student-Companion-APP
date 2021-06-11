@@ -7,17 +7,16 @@ import {
   SelectItem,
   Spinner,
   Text,
-  useTheme,
+  useTheme
 } from "@ui-kitten/components";
 import { AxiosError } from "axios";
 import { Formik } from "formik";
 import React from "react";
 import {
-  ActivityIndicator,
   ScrollView,
   StatusBar,
   StyleSheet,
-  View,
+  View
 } from "react-native";
 import { useMutation, useQuery } from "react-query";
 import { useDispatch } from "react-redux";
@@ -25,6 +24,7 @@ import * as Yup from "yup";
 import AxiosInstance from "../axios";
 import ErrorMessage from "../components/Error/ErrorMessage";
 import { addAuthData } from "../redux/reducers/authSlice";
+import LoadingScreen from "./LoadingScreen";
 
 const divisions = ["1", "2", "3", "4"];
 const years = ["FE", "SE", "TE", "BE"];
@@ -127,7 +127,7 @@ const ProfileCreateScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const prevData = route.params?.data;
-  console.log(prevData,"prevData")
+  console.log(prevData, "prevData");
   const dispatch = useDispatch();
   const { isLoading, mutate, error, isError } = useMutation<
     SignupRes,
@@ -178,21 +178,7 @@ const ProfileCreateScreen = () => {
   );
 
   if (isColLoading) {
-    return (
-      <Layout
-        level="4"
-        style={{
-          flexGrow: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <ActivityIndicator
-          size="large"
-          color={theme["color-primary-default"]}
-        />
-      </Layout>
-    );
+    return <LoadingScreen />;
   }
 
   return (

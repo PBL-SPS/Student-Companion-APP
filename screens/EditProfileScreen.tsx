@@ -1,26 +1,30 @@
 import {
   Button,
-  Icon,
   IndexPath,
   Input,
   Layout,
   Select,
   SelectItem,
   Spinner,
-  Text,
-  useTheme,
+  useTheme
 } from "@ui-kitten/components";
+import { AxiosError } from "axios";
 import { Formik } from "formik";
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import ErrorMessage from "../components/Error/ErrorMessage";
+import Toast from "react-native-root-toast";
+import { useMutation, useQuery } from "react-query";
 import * as Yup from "yup";
-import useAppSelector from "../hooks/useAppSelector";
-import { useMutation } from "react-query";
 import AxiosInstance from "../axios";
+import ErrorMessage from "../components/Error/ErrorMessage";
 import useAppDispatch from "../hooks/useAppDispatch";
+import useAppSelector from "../hooks/useAppSelector";
 import { updateAuthData } from "../redux/reducers/authSlice";
-import { useNavigation } from "@react-navigation/core";
+import LoadingScreen from "./LoadingScreen";
+import {
+  CollegeData,
+  DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity
+} from "./ProfileCreateScreen";
 
 const validationSchema = Yup.object().shape({
   firstname: Yup.string().required().label("Firstname"),
@@ -31,11 +35,6 @@ const validationSchema = Yup.object().shape({
   department: Yup.number().required().label("Department"),
   division: Yup.number().required().label("Division"),
 });
-
-const divisions = ["1", "2", "3", "4"];
-const years = ["FE", "SE", "TE", "BE"];
-const departments = ["COMP", "IT", "ENTC"];
-const batches = ["E1", "F1", "G1", "H1"];
 
 interface editValues {
   firstname?: string;
@@ -78,9 +77,47 @@ const EditProfileScreen = () => {
             divisionId: resData.divisionId,
           })
         );
+        Toast.show("Updated Profile successfully", {
+          duration: Toast.durations.LONG,
+          textStyle: {
+            fontSize: 14,
+          },
+        });
         return res.data;
       })
       .catch((err) => console.log(err.message))
+  );
+
+  const {
+    data: collegeData,
+    isLoading: isColLoading,
+    isError: isColError,
+    error: colError,
+  } = useQuery<CollegeData, AxiosError>(["collegeData"], () =>
+    AxiosInstance.get(`/collegeData`).then((res) => {
+      return {
+        batches: res.data.batches.map(
+          (
+            batch: DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity
+          ) => batch.name
+        ),
+        divisions: res.data.divisions.map(
+          (
+            division: DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity
+          ) => division.name
+        ),
+        departments: res.data.departments.map(
+          (
+            department: DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity
+          ) => department.name
+        ),
+        years: res.data.years.map(
+          (
+            year: DivisionsEntityOrDepartmentsEntityOrBatchesEntityOrYearsEntity
+          ) => year.name
+        ),
+      };
+    })
   );
 
   const onSubmit = (values: editValues) => {
@@ -88,18 +125,21 @@ const EditProfileScreen = () => {
       firstName: values.firstname,
       lastName: values.lastname,
       email: values.email,
-      batch: batches[values.batch],
-      department: departments[values.department],
-      year: years[values.year],
-      division: divisions[values.division],
+      batch: collegeData.batches[values.batch],
+      department: collegeData.departments[values.department],
+      year: collegeData.years[values.year],
+      division: collegeData.divisions[values.division],
     });
   };
 
+  if (isColLoading) return <LoadingScreen />;
+
   return (
-    <ScrollView style={{ backgroundColor: theme["background-basic-color-4"] }}
-    contentContainerStyle={{
-      paddingTop : 20
-    }}
+    <ScrollView
+      style={{ backgroundColor: theme["background-basic-color-4"] }}
+      contentContainerStyle={{
+        paddingTop: 20,
+      }}
     >
       <Layout level="4" style={styles.container}>
         <Layout level="4">
@@ -108,10 +148,10 @@ const EditProfileScreen = () => {
               firstname: authData.firstName,
               lastname: authData.lastName,
               email: authData.email,
-              batch: batches.indexOf(authData.batch),
-              division: divisions.indexOf(authData.division),
-              department: departments.indexOf(authData.department),
-              year: years.indexOf(authData.year),
+              batch: collegeData.batches.indexOf(authData.batch),
+              division: collegeData.divisions.indexOf(authData.division),
+              department: collegeData.departments.indexOf(authData.department),
+              year: collegeData.years.indexOf(authData.year),
             }}
             onSubmit={onSubmit}
             validationSchema={validationSchema}
@@ -177,9 +217,9 @@ const EditProfileScreen = () => {
                       onSelect={(index) => setFieldValue("year", index.row)}
                       label={"Year"}
                       onBlur={() => setFieldTouched("year")}
-                      value={years[values.year]}
+                      value={collegeData.years[values.year]}
                     >
-                      {years.map((year, index) => (
+                      {collegeData.years.map((year, index) => (
                         <SelectItem key={index.toString()} title={year} />
                       ))}
                     </Select>
@@ -196,9 +236,9 @@ const EditProfileScreen = () => {
                       onSelect={(index) => setFieldValue("batch", index.row)}
                       label={"Batch"}
                       onBlur={() => setFieldTouched("batch")}
-                      value={batches[values.batch]}
+                      value={collegeData.batches[values.batch]}
                     >
-                      {batches.map((batch, index) => (
+                      {collegeData.batches.map((batch, index) => (
                         <SelectItem key={index.toString()} title={batch} />
                       ))}
                     </Select>
@@ -217,9 +257,9 @@ const EditProfileScreen = () => {
                       }
                       label={"Department"}
                       onBlur={() => setFieldTouched("department")}
-                      value={departments[values.department]}
+                      value={collegeData.departments[values.department]}
                     >
-                      {departments.map((department, index) => (
+                      {collegeData.departments.map((department, index) => (
                         <SelectItem key={index.toString()} title={department} />
                       ))}
                     </Select>
@@ -236,9 +276,9 @@ const EditProfileScreen = () => {
                       onSelect={(index) => setFieldValue("division", index.row)}
                       label={"Division"}
                       onBlur={() => setFieldTouched("division")}
-                      value={divisions[values.division]}
+                      value={collegeData.divisions[values.division]}
                     >
-                      {divisions.map((division, index) => (
+                      {collegeData.divisions.map((division, index) => (
                         <SelectItem key={index.toString()} title={division} />
                       ))}
                     </Select>

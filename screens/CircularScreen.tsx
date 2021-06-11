@@ -10,6 +10,7 @@ import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { getCirculars } from "../redux/reducers/circularSlice";
 import { CircularCardProps } from "../types";
+import LoadingScreen from "./LoadingScreen";
 
 const CircularScreen = () => {
   const theme = useTheme();
@@ -88,12 +89,7 @@ const CircularScreen = () => {
     })
   );
 
-  if (stateCircular.length == 0 && isLoading)
-    return (
-      <Layout>
-        <Text>Loading</Text>
-      </Layout>
-    );
+  if (stateCircular.length == 0 && isLoading) return <LoadingScreen />;
 
   if (error)
     return (
@@ -107,8 +103,8 @@ const CircularScreen = () => {
       <List
         // style={{ flexGrow: 1 }}
         contentContainerStyle={{
-          paddingTop : 5,
-          paddingBottom : 10
+          paddingTop: 5,
+          paddingBottom: 10,
         }}
         onRefresh={refetch}
         refreshing={isLoading}
