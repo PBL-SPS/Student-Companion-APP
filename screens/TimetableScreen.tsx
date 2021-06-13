@@ -59,7 +59,7 @@ const TimetableScreen = () => {
     setDay((oldDay) => (oldDay - 1 >= 0 ? oldDay - 1 : weekdays.length - 1));
   };
 
-  if (stateTimetable && isLoading) return <LoadingScreen />;
+  if (!stateTimetable && isLoading) return <LoadingScreen />;
 
   if (error)
     return (

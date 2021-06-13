@@ -27,7 +27,7 @@ import whatsNewReducer from "./reducers/whatsNewSlice";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["contacts", "timetable", "auth", "circulars"],
+  whitelist: ["contacts", "timetable", "auth", "circulars","whatsnew","attendance"],
 };
 
 const rootReducer = combineReducers({
