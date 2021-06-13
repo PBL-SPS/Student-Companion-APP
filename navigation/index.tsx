@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import axios from "axios";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
+import refreshTokenInterceptor from "../axios/refreshTokenInterceptor";
 import useAppSelector from "../hooks/useAppSelector";
 import LoginScreen from "../screens/LoginScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
@@ -15,6 +16,8 @@ import SignupScreen from "../screens/SignupScreen";
 import { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
+
+refreshTokenInterceptor();
 
 export default function Navigation({
   colorScheme,

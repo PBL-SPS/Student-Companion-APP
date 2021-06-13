@@ -4,7 +4,7 @@ import {
   combineReducers,
   configureStore,
   getDefaultMiddleware,
-  ThunkAction,
+  ThunkAction
 } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import {
@@ -15,14 +15,14 @@ import {
   persistStore,
   PURGE,
   REGISTER,
-  REHYDRATE,
+  REHYDRATE
 } from "redux-persist";
+import attendanceReducer from "./reducers/attendanceSlice";
 import authReducer from "./reducers/authSlice";
 import circularReducer from "./reducers/circularSlice";
 import contactReducer from "./reducers/contactsSlice";
 import timetableReducer from "./reducers/timetableSlice";
 import whatsNewReducer from "./reducers/whatsNewSlice";
-import attendanceReducer from "./reducers/attendanceSlice";
 
 const persistConfig = {
   key: "root",
@@ -41,8 +41,16 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+const appRootReducer = (state: any, action: any) => {
+  if (action.type === "USER_LOGOUT") {
+    return persistedReducer(undefined, action);
+  }
+
+  return persistedReducer(state, action);
+};
+
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: appRootReducer,
   middleware: getDefaultMiddleware({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
