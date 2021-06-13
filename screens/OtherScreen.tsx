@@ -1,38 +1,39 @@
+import { useNavigation } from "@react-navigation/core";
 import {
   Button,
   Icon,
   Input,
   Layout,
   Modal,
+  Radio,
+  RadioGroup,
   Spinner,
   Text,
-  Toggle,
-  useTheme,
+  useTheme
 } from "@ui-kitten/components";
-import React from "react";
+import { Formik } from "formik";
+import React, { useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
+  useWindowDimensions,
+  View
 } from "react-native";
-import { useDispatch } from "react-redux";
-import Divider from "../components/Divider";
-import ProfileItem from "../components/OtherScreen/ProfileItem";
-import useAppSelector from "../hooks/useAppSelector";
-import { addAuthData } from "../redux/reducers/authSlice";
-import * as Yup from "yup";
-import { useNavigation } from "@react-navigation/core";
-import useAppDispatch from "../hooks/useAppDispatch";
 import { useMutation } from "react-query";
-import { Attendance, misCredentials } from "./MISDetailsScreen";
+import * as Yup from "yup";
 import AxiosInstance from "../axios";
+import Divider from "../components/Divider";
+import ErrorMessage from "../components/Error/ErrorMessage";
+import ProfileItem from "../components/OtherScreen/ProfileItem";
+import useAppDispatch from "../hooks/useAppDispatch";
+import useAppSelector from "../hooks/useAppSelector";
 import {
   addAttendanceData,
-  addMISDetails,
+  addMISDetails
 } from "../redux/reducers/attendanceSlice";
-import { Formik } from "formik";
-import ErrorMessage from "../components/Error/ErrorMessage";
+import { AppearanceType, setAppearance } from "../redux/reducers/settingsSlice";
+import { Attendance, misCredentials } from "./MISDetailsScreen";
 
 const validationSchema = Yup.object().shape({
   misId: Yup.string().required().label("MIS ID"),
@@ -50,6 +51,8 @@ const OtherScreen = () => {
   const authData = useAppSelector((state) => state.auth);
   const AttendanceState = useAppSelector((state) => state.attendance);
   const [visible, setVisible] = React.useState(false);
+  const [themeVisible, setthemeVisible] = useState(false);
+  const dimensions = useWindowDimensions();
 
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const navigation = useNavigation();
@@ -89,6 +92,11 @@ const OtherScreen = () => {
   const onSubmit = (values: misCredentials) => {
     mutate(values);
   };
+  const themes: AppearanceType[] = ["LIGHT", "DARK", "SYSTEM_PREF"];
+  const themeState = useAppSelector((state) => state.settings.appearance);
+  const [selectedIndex, setSelectedIndex] = React.useState(
+    themes.indexOf(themeState)
+  );
 
   return (
     <>
@@ -175,6 +183,41 @@ const OtherScreen = () => {
           </Layout>
         </Modal>
       </Layout>
+      <Layout style={styles.modalContainer}>
+        <Modal
+          style={styles.modal}
+          visible={themeVisible}
+          backdropStyle={styles.backdrop}
+          onBackdropPress={() => setthemeVisible(false)}
+        >
+          <Layout
+            style={{
+              width: (dimensions.width * 4) / 5,
+              paddingHorizontal: 40,
+              paddingVertical: 40,
+              borderRadius: 5,
+            }}
+            level="2"
+          >
+            <Text category="h5">Select Appearance</Text>
+
+            <RadioGroup
+              selectedIndex={selectedIndex}
+              style={{
+                marginTop: 10,
+              }}
+              onChange={(index) => {
+                setSelectedIndex(index);
+                dispatch(setAppearance(themes[index]));
+              }}
+            >
+              <Radio style={{ marginBottom: 15 }}>Light</Radio>
+              <Radio style={{ marginBottom: 15 }}>Dark</Radio>
+              <Radio>System Preferred</Radio>
+            </RadioGroup>
+          </Layout>
+        </Modal>
+      </Layout>
       {/* OtherScreen */}
       <Layout level="4" style={styles.container}>
         <TouchableOpacity
@@ -216,16 +259,18 @@ const OtherScreen = () => {
               text="Calendar (Coming Soon)"
             />
           </TouchableOpacity>
-          <Layout level="4" style={styles.darkMode}>
-            {/* <ProfileItem name="moon-outline" text="Dark Mode" />
-          <Toggle checked={true} /> */}
-          </Layout>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setthemeVisible(true)}
+          >
+            <ProfileItem name="moon-outline" text="Appearance" />
+          </TouchableOpacity>
         </Layout>
         <Divider />
         <Layout level="4" style={styles.body}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => dispatch({type : "USER_LOGOUT"})}
+            onPress={() => dispatch({ type: "USER_LOGOUT" })}
           >
             <ProfileItem name="corner-down-left-outline" text="Logout" />
           </TouchableOpacity>
@@ -279,7 +324,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   backdrop: {
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    backgroundColor: "rgba(0, 0, 0, 0.404)",
   },
   modalContainer: {
     justifyContent: "center",
