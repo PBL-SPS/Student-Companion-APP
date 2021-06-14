@@ -68,7 +68,7 @@ const OtherScreen = () => {
     </TouchableWithoutFeedback>
   );
 
-  const { isLoading, mutate, error, isError } = useMutation<Attendance, Error>(
+  const { isLoading, mutate, error, isError } = useMutation<Attendance, Error, misCredentials>(
     (attendanceData) =>
       AxiosInstance.post<Attendance>(
         "/student/attendance",
@@ -251,7 +251,7 @@ const OtherScreen = () => {
                 : setVisible(true);
             }}
           >
-            <ProfileItem name="info-outline" text="Attendance" />
+            <ProfileItem name="pie-chart-outline" text="Attendance" />
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.8}>
             <ProfileItem

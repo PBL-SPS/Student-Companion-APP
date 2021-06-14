@@ -1,12 +1,12 @@
 import * as eva from "@eva-design/eva";
 import {
-    dark as materialDark,
-    light as materialLight
+  dark as materialDark,
+  light as materialLight
 } from "@eva-design/material";
 import { ApplicationProvider } from "@ui-kitten/components";
+import { StatusBar } from "expo-status-bar";
 import React from "react";
-import useAppSelector from "./hooks/useAppSelector";
-import useColorScheme from "./hooks/useColorScheme";
+import useThemeMode from "./hooks/useThemeMode";
 import Navigation from "./navigation";
 import { customEvaTheme } from "./theme/customTheme";
 
@@ -32,32 +32,14 @@ const darkTheme = {
 };
 
 const ThemedApp = () => {
-  const storedThemeState = useAppSelector((state) => state.settings.appearance);
-  const colorScheme = useColorScheme();
+  const themeMode = useThemeMode();
   return (
     <ApplicationProvider
       {...eva}
-      theme={
-        storedThemeState === "DARK"
-          ? darkTheme
-          : storedThemeState === "SYSTEM_PREF"
-          ? colorScheme === "light"
-            ? lightTheme
-            : darkTheme
-          : lightTheme
-      }
+      theme={themeMode === "dark" ? darkTheme : lightTheme}
     >
-      <Navigation
-        colorScheme={
-          storedThemeState === "DARK"
-            ? "dark"
-            : storedThemeState === "SYSTEM_PREF"
-            ? colorScheme === "light"
-              ? "light"
-              : "dark"
-            : "light"
-        }
-      />
+      <Navigation colorScheme={themeMode} />
+      <StatusBar style={themeMode === "dark" ? "light" : "dark"} />
     </ApplicationProvider>
   );
 };

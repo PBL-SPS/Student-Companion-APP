@@ -1,6 +1,5 @@
 import { IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { LogBox } from "react-native";
 import { RootSiblingParent } from "react-native-root-siblings";
@@ -35,7 +34,6 @@ export default function App() {
               </QueryClientProvider>
             </Provider>
           </PersistGate>
-          <StatusBar />
         </SafeAreaProvider>
       </RootSiblingParent>
     );

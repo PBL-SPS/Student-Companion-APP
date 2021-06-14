@@ -49,7 +49,7 @@ const EditMISDetailsScreen = () => {
     </TouchableWithoutFeedback>
   );
 
-  const { isLoading, mutate, error, isError } = useMutation<Attendance, Error>(
+  const { isLoading, mutate, error, isError } = useMutation<Attendance, Error, misCredentials>(
     (attendanceData) =>
       AxiosInstance.post<Attendance>(
         "/student/attendance",

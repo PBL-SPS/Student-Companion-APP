@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // Define a type for the slice state
 interface AuthState {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   email: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   departmentId: number;
   department: string;
   batchId: number;
@@ -16,8 +16,8 @@ interface AuthState {
   year: string;
   divisionId: number;
   division: string;
-  access_token: string;
-  refresh_token: string;
+  access_token?: string;
+  refresh_token?: string;
 }
 
 // Define the initial state using that type
