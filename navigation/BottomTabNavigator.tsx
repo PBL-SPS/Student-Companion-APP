@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
 import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
+import useThemeMode from "../hooks/useThemeMode";
 import { BottomTabParamList } from "../types";
 import CircularNavigator from "./CircularNavigator";
 import ContactNavigator from "./ContactNavigator";
@@ -13,12 +13,14 @@ import WhatsNewNavigator from "./WhatsNewNavigator";
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  const themeMode = useThemeMode();
 
   return (
     <BottomTab.Navigator
       initialRouteName="Circulars"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      tabBarOptions={{
+        activeTintColor: Colors[themeMode].tint,
+      }}
     >
       <BottomTab.Screen
         name="Circulars"

@@ -10,7 +10,7 @@ import {
 } from "@ui-kitten/components";
 import useAppSelector from "../hooks/useAppSelector";
 import { useMutation } from "react-query";
-import { Attendance } from "./MISDetailsScreen";
+import { Attendance, misCredentials } from "./MISDetailsScreen";
 import AxiosInstance from "../axios";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { addAttendanceData } from "../redux/reducers/attendanceSlice";
@@ -20,7 +20,7 @@ const AttendanceScreen = () => {
   const AttendanceState = useAppSelector((state) => state.attendance);
   const dispatch = useAppDispatch();
 
-  const { isLoading, mutate, error, isError } = useMutation<Attendance, Error>(
+  const { isLoading, mutate, error, isError } = useMutation<Attendance, Error, misCredentials>(
     (attendanceData) =>
       AxiosInstance.post<Attendance>(
         "/student/attendance",

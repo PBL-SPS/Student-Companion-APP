@@ -12,12 +12,7 @@ import {
 import { AxiosError } from "axios";
 import { Formik } from "formik";
 import React from "react";
-import {
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View
-} from "react-native";
+import { ScrollView, StatusBar, StyleSheet, View } from "react-native";
 import { useMutation, useQuery } from "react-query";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
@@ -131,7 +126,8 @@ const ProfileCreateScreen = () => {
   const dispatch = useDispatch();
   const { isLoading, mutate, error, isError } = useMutation<
     SignupRes,
-    AxiosError
+    AxiosError,
+    SignUpData
   >((signupData) =>
     AxiosInstance.post<SignupRes>("/auth/signup", signupData).then((res) => {
       dispatch(

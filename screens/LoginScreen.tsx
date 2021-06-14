@@ -95,7 +95,7 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  const { isLoading, mutate, error, isError } = useMutation<LoginData, Error>(
+  const { isLoading, mutate, error, isError } = useMutation<LoginData, Error, LoginInput>(
     (loginData) =>
       AxiosInstance.post<LoginData>("/auth/signin", loginData).then((res) => {
         const resData = res.data;

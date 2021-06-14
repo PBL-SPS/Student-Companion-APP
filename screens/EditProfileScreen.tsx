@@ -46,6 +46,16 @@ interface editValues {
   year?: number;
 }
 
+interface EditData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  batch: string;
+  department: string;
+  year: string;
+  division: string;
+}
+
 const LoadingIndicator = (props: any) => (
   <View style={[props.style, styles.indicator]}>
     <Spinner size="small" style={{ borderColor: "white" }} />
@@ -57,7 +67,11 @@ const EditProfileScreen = () => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
-  const { isLoading, mutate, error, isError } = useMutation((editData) =>
+  const { isLoading, mutate, error, isError } = useMutation<
+    any,
+    AxiosError,
+    EditData
+  >((editData) =>
     AxiosInstance.post("/student/profile/edit", editData)
       .then((res) => {
         const resData = res.data;
