@@ -1,4 +1,11 @@
-import { Button, Icon, Layout, Text, useTheme } from "@ui-kitten/components";
+import {
+  Button,
+  Icon,
+  Layout,
+  Spinner,
+  Text,
+  useTheme,
+} from "@ui-kitten/components";
 import React, { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { useQuery } from "react-query";
@@ -60,15 +67,15 @@ const TimetableScreen = () => {
 
   if (!stateTimetable && isLoading)
     return (
-      <Layout style={styles.container}>
-        <Text>Loading</Text>
+      <Layout style={styles.spinner}>
+        <Spinner size="giant" />
       </Layout>
     );
 
   if (error)
     return (
-      <Layout style={styles.container}>
-        <Text>Error</Text>
+      <Layout style={styles.error}>
+        <Text>Oops! Something went wrong</Text>
       </Layout>
     );
   return (
@@ -159,5 +166,15 @@ const styles = StyleSheet.create({
   icon: {
     width: 25,
     height: 25,
+  },
+  spinner: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 30,
+  },
+  error: {
+    flex: 1,
+    paddingTop: 30,
+    paddingHorizontal: 15,
   },
 });

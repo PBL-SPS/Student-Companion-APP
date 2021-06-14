@@ -1,5 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
-import { Icon, Layout, List, Text, useTheme } from "@ui-kitten/components";
+import {
+  Icon,
+  Layout,
+  List,
+  Spinner,
+  Text,
+  useTheme,
+} from "@ui-kitten/components";
 import moment from "moment";
 import React from "react";
 import { ListRenderItem, StyleSheet } from "react-native";
@@ -70,7 +77,9 @@ const CircularScreen = () => {
               paddingRight: 17,
             }}
           >
-            <Text category="c2">{moment(item.createdAt).fromNow()}</Text>
+            <Text appearance="hint" category="c2">
+              {moment(item.createdAt).fromNow()}
+            </Text>
           </Layout>
         </Layout>
       </TouchableScale>
@@ -90,15 +99,15 @@ const CircularScreen = () => {
 
   if (stateCircular.length == 0 && isLoading)
     return (
-      <Layout>
-        <Text>Loading</Text>
+      <Layout style={styles.spinner}>
+        <Spinner size="giant" />
       </Layout>
     );
 
   if (error)
     return (
-      <Layout>
-        <Text>Error</Text>
+      <Layout style={styles.error}>
+        <Text>Oops! Something went wrong</Text>
       </Layout>
     );
 
@@ -107,8 +116,8 @@ const CircularScreen = () => {
       <List
         // style={{ flexGrow: 1 }}
         contentContainerStyle={{
-          paddingTop : 5,
-          paddingBottom : 10
+          paddingTop: 5,
+          paddingBottom: 10,
         }}
         onRefresh={refetch}
         refreshing={isLoading}
@@ -181,5 +190,15 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
+  },
+  spinner: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 30,
+  },
+  error: {
+    flex: 1,
+    paddingTop: 30,
+    paddingHorizontal: 15,
   },
 });

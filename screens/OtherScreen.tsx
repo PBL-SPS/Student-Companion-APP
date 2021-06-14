@@ -99,6 +99,14 @@ const OtherScreen = () => {
           visible={visible}
           backdropStyle={styles.backdrop}
         >
+          <Layout style={styles.closeIconContainer}>
+            <Icon
+              style={styles.iconClose}
+              fill="#fff"
+              name="close-outline"
+              onPress={() => setVisible(false)}
+            />
+          </Layout>
           <Layout style={styles.container}>
             <Layout
               style={{
@@ -297,5 +305,15 @@ const styles = StyleSheet.create({
   indicator: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  iconClose: {
+    height: 32,
+    width: 32,
+  },
+  closeIconContainer: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
 });

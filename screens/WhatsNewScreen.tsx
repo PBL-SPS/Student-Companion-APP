@@ -48,8 +48,8 @@ const WhatsNewScreen = () => {
 
   if (error) {
     return (
-      <Layout style={styles.container}>
-        <Text>Error</Text>
+      <Layout style={styles.error}>
+        <Text>Oops! Something went wrong</Text>
       </Layout>
     );
   }
@@ -62,7 +62,7 @@ const WhatsNewScreen = () => {
           paddingBottom: 10,
         }}
         style={{
-          flex: 1
+          flex: 1,
         }}
         onRefresh={refetch}
         refreshing={isLoading}
@@ -84,5 +84,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingTop: 30,
+  },
+  error: {
+    flex: 1,
+    paddingTop: 30,
+    paddingHorizontal: 15,
   },
 });
