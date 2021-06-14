@@ -1,13 +1,13 @@
 import { Layout, Spinner, Text } from "@ui-kitten/components";
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
-
 import { useQuery } from "react-query";
 import AxiosInstance from "../axios";
 import ContactCard from "../components/ContactCard";
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { addContacts } from "../redux/reducers/contactsSlice";
+import LoadingScreen from "./LoadingScreen";
 
 export type Contact = {
   id: number;
@@ -38,12 +38,7 @@ const ContactScreen = () => {
     <ContactCard contact={item} />
   );
 
-  if (stateContacts.length == 0 && isLoading)
-    return (
-      <Layout style={styles.spinner}>
-        <Spinner size="giant" />
-      </Layout>
-    );
+  if (stateContacts.length == 0 && isLoading) return <LoadingScreen />;
 
   if (error)
     return (

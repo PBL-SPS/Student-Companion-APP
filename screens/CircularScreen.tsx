@@ -17,6 +17,7 @@ import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { getCirculars } from "../redux/reducers/circularSlice";
 import { CircularCardProps } from "../types";
+import LoadingScreen from "./LoadingScreen";
 
 const CircularScreen = () => {
   const theme = useTheme();
@@ -97,12 +98,7 @@ const CircularScreen = () => {
     })
   );
 
-  if (stateCircular.length == 0 && isLoading)
-    return (
-      <Layout style={styles.spinner}>
-        <Spinner size="giant" />
-      </Layout>
-    );
+  if (stateCircular.length == 0 && isLoading) return <LoadingScreen />;
 
   if (error)
     return (

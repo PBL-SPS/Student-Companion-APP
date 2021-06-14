@@ -233,7 +233,7 @@ const OtherScreen = () => {
         <Layout level="4" style={styles.body}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => dispatch(addAuthData(null))}
+            onPress={() => dispatch({type : "USER_LOGOUT"})}
           >
             <ProfileItem name="corner-down-left-outline" text="Logout" />
           </TouchableOpacity>

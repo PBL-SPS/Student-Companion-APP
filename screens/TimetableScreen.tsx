@@ -15,6 +15,7 @@ import LectureCard from "../components/LectureCard";
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { addTimetable } from "../redux/reducers/timetableSlice";
+import LoadingScreen from "./LoadingScreen";
 
 export type Lecture = {
   id: number;
@@ -65,12 +66,7 @@ const TimetableScreen = () => {
     setDay((oldDay) => (oldDay - 1 >= 0 ? oldDay - 1 : weekdays.length - 1));
   };
 
-  if (!stateTimetable && isLoading)
-    return (
-      <Layout style={styles.spinner}>
-        <Spinner size="giant" />
-      </Layout>
-    );
+  if (!stateTimetable && isLoading) return <LoadingScreen />;
 
   if (error)
     return (

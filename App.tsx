@@ -8,6 +8,7 @@ import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { LogBox } from "react-native";
+import { RootSiblingParent } from "react-native-root-siblings";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
@@ -30,44 +31,46 @@ export default function App() {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <PersistGate loading={null} persistor={persistor}>
-          <Provider store={store}>
-            <QueryClientProvider client={queryClient}>
-              <IconRegistry icons={[EvaIconsPack, IonIconsPack]} />
-              <ApplicationProvider
-                {...eva}
-                theme={
-                  colorScheme === "light"
-                    ? {
-                        ...materialLight,
-                        ...customEvaTheme,
-                        ...{
-                          "background-basic-color-2": "#ffffff",
-                          "background-basic-color-3": "#ffffff",
-                          "background-basic-color-4": "#ffffff",
-                        },
-                      }
-                    : {
-                        ...materialDark,
-                        ...customEvaTheme,
-                        ...{
-                          "background-basic-color-1": "#2D2D2D",
-                          "background-basic-color-2": "#272727",
-                          "background-basic-color-3": "#222222",
-                          "background-basic-color-4": "#1E1E1E",
-                        },
-                      }
-                }
-              >
-                <Navigation colorScheme={colorScheme} />
-                {/* <LoginScreen /> */}
-              </ApplicationProvider>
-            </QueryClientProvider>
-          </Provider>
-        </PersistGate>
-        <StatusBar />
-      </SafeAreaProvider>
+      <RootSiblingParent>
+        <SafeAreaProvider>
+          <PersistGate loading={null} persistor={persistor}>
+            <Provider store={store}>
+              <QueryClientProvider client={queryClient}>
+                <IconRegistry icons={[EvaIconsPack, IonIconsPack]} />
+                <ApplicationProvider
+                  {...eva}
+                  theme={
+                    colorScheme === "light"
+                      ? {
+                          ...materialLight,
+                          ...customEvaTheme,
+                          ...{
+                            "background-basic-color-2": "#ffffff",
+                            "background-basic-color-3": "#ffffff",
+                            "background-basic-color-4": "#ffffff",
+                          },
+                        }
+                      : {
+                          ...materialDark,
+                          ...customEvaTheme,
+                          ...{
+                            "background-basic-color-1": "#2D2D2D",
+                            "background-basic-color-2": "#272727",
+                            "background-basic-color-3": "#222222",
+                            "background-basic-color-4": "#1E1E1E",
+                          },
+                        }
+                  }
+                >
+                  <Navigation colorScheme={colorScheme} />
+                  {/* <LoginScreen /> */}
+                </ApplicationProvider>
+              </QueryClientProvider>
+            </Provider>
+          </PersistGate>
+          <StatusBar />
+        </SafeAreaProvider>
+      </RootSiblingParent>
     );
   }
 }

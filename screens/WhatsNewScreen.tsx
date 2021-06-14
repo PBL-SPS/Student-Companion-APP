@@ -1,4 +1,4 @@
-import { Layout, Spinner, Text } from "@ui-kitten/components";
+import { Layout, Text } from "@ui-kitten/components";
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { useQuery } from "react-query";
@@ -7,6 +7,7 @@ import WhatsNewCard from "../components/WhatsNew/WhatsNewCard";
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { getWhatsNew } from "../redux/reducers/whatsNewSlice";
+import LoadingScreen from "./LoadingScreen";
 
 export type WhatsNew = {
   id: number;
@@ -38,12 +39,8 @@ const WhatsNewScreen = () => {
     return <WhatsNewCard whatsnewitem={item} />;
   };
 
-  if (isLoading) {
-    return (
-      <Layout style={styles.spinner}>
-        <Spinner size="giant" />
-      </Layout>
-    );
+  if (whatsNewFeed.length === 0 && isLoading) {
+    return <LoadingScreen />;
   }
 
   if (error) {
