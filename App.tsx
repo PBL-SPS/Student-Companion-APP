@@ -15,6 +15,7 @@ import ThemedApp from "./ThemedApp";
 
 const queryClient = new QueryClient();
 LogBox.ignoreLogs(["Setting a timer"]);
+LogBox.ignoreLogs(["Accessing the 'state' property of the 'route' "]);
 
 export default function App() {
   const isLoadingComplete = useCachedResources();

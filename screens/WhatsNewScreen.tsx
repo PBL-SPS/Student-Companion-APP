@@ -65,7 +65,7 @@ const WhatsNewScreen = () => {
         refreshing={isLoading}
         data={whatsNewFeed}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item,index) => index.toString()}
       />
     </Layout>
   );

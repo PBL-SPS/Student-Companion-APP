@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationState } from "@react-navigation/native";
 import * as React from "react";
 import Colors from "../constants/Colors";
 import useThemeMode from "../hooks/useThemeMode";
@@ -12,6 +13,13 @@ import WhatsNewNavigator from "./WhatsNewNavigator";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
+const isTabBarVisible = (navState: NavigationState) => {
+  if (!navState) {
+    return true;
+  }
+  return navState.index === 0;
+};
+
 export default function BottomTabNavigator() {
   const themeMode = useThemeMode();
 
@@ -21,15 +29,32 @@ export default function BottomTabNavigator() {
       tabBarOptions={{
         activeTintColor: Colors[themeMode].tint,
       }}
+      screenOptions={({ navigation, route }) => ({
+        tabBarVisible: isTabBarVisible(route.state),
+        tabBarVisibilityAnimationConfig: {
+          hide: {
+            config: {
+              duration: 100,
+              delay: 0,
+            },
+          },
+          show: {
+            config: {
+              duration: 100,
+              delay: 0,
+            },
+          },
+        },
+      })}
     >
       <BottomTab.Screen
         name="Circulars"
         component={CircularNavigator}
-        options={{
+        options={({ navigation, route }) => ({
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="albums-outline" color={color} />
           ),
-        }}
+        })}
       />
       <BottomTab.Screen
         name="Timetable"
