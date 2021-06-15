@@ -1,4 +1,4 @@
-import { Layout, Text } from "@ui-kitten/components";
+import { Layout, Spinner, Text } from "@ui-kitten/components";
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { useQuery } from "react-query";
@@ -8,7 +8,6 @@ import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { addContacts } from "../redux/reducers/contactsSlice";
 import LoadingScreen from "./LoadingScreen";
-
 
 export type Contact = {
   id: number;
@@ -43,8 +42,8 @@ const ContactScreen = () => {
 
   if (error)
     return (
-      <Layout>
-        <Text>{error.toString()}</Text>
+      <Layout style={styles.error}>
+        <Text>Oops! Something went wrong</Text>
       </Layout>
     );
 
@@ -71,5 +70,15 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     paddingTop: 5,
+  },
+  spinner: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 30,
+  },
+  error: {
+    flex: 1,
+    paddingTop: 30,
+    paddingHorizontal: 15,
   },
 });
